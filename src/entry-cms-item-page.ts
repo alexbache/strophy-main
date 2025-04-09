@@ -1,5 +1,54 @@
-export const entryPage = () => {
+import { isPage } from '$utils/ispage';
+
+/**
+ * Orders the winner CMS list for next/previous navigation.
+ * List should be ordered by category and then position within category.
+ */
+const orderWinnerCMSList = () => {
+  if (!isPage(['/winners/*'])) return;
+
+  const SELECTORS = {
+    CMS_LIST: '[custom_action="cms_list"]',
+    CMS_CATEGORY: 'cms-category',
+    CMS_POSITION: 'cms-position',
+  };
+
+  const cmsList = document.querySelector(SELECTORS.CMS_LIST) as HTMLElement;
+
+  if (!cmsList) {
+    console.error('CMS list not found');
+    return;
+  }
+
+  const items = Array.from(cmsList.children);
+
+  // Sort items by category and position
+  const sortedItems = items.sort((a, b) => {
+    const categoryA = a.getAttribute(SELECTORS.CMS_CATEGORY) || '';
+    const categoryB = b.getAttribute(SELECTORS.CMS_CATEGORY) || '';
+    const positionA = parseInt(a.getAttribute(SELECTORS.CMS_POSITION) || '0', 10);
+    const positionB = parseInt(b.getAttribute(SELECTORS.CMS_POSITION) || '0', 10);
+
+    // First compare categories
+    if (categoryA !== categoryB) {
+      return categoryA.localeCompare(categoryB);
+    }
+    // If categories are the same, compare positions
+    return positionA - positionB;
+  });
+
+  // Reorder DOM elements
+  sortedItems.forEach((item) => {
+    cmsList.appendChild(item);
+  });
+
+  console.log('Sorted items:', sortedItems);
+};
+
+const entryCMSItemPage = () => {
   console.log('Initializing entry page navigation');
+
+  orderWinnerCMSList();
 
   const nextButton = document.querySelector('[custom_action="btn_next_cms"]') as HTMLAnchorElement;
   const prevButton = document.querySelector('[custom_action="btn_prev_cms"]') as HTMLAnchorElement;
@@ -50,3 +99,5 @@ export const entryPage = () => {
 
   console.log('Navigation hrefs updated');
 };
+
+export { entryCMSItemPage };

@@ -1,104 +1,78 @@
-import { entryPage } from './entry-page';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+import { setPagePageTopPadding } from '$utils/pageUtils';
+
+import { imageMarquee, prizesAnimation } from './cash-prizes';
+import { categoryLayout } from './categories';
+import { competitionDates } from './competition-dates';
+import { initContactModal } from './contact-modal';
+import { entryCMSItemPage } from './entry-cms-item-page';
+import { filters } from './filters';
 import { heroImageMarquee } from './hero-marquee';
+import { heroLogoMarquee } from './hero-marquee';
+import { inspirationImageRowPadding, inspirationImageSlider } from './inspiration';
+import { introAnimation } from './intro-scene';
+import { initJotForm } from './jotform';
+import { animateNavLogo, navMenuPosition } from './nav';
+import { parallaxBackground } from './parallax-bg';
 import { phaseControl } from './phase-control';
 import { isPage } from './utils/ispage';
+import { handleExternalLinks } from './utils/links';
+import { flipWinnerItemPosition } from './winners';
 
 window.Webflow ||= [];
 window.Webflow.push(() => {
+  handleExternalLinks();
+  navMenuPosition();
+  animateNavLogo();
   phaseControl();
-  if (isPage('/entries/*')) {
-    entryPage();
+  initContactModal();
+
+  if (isPage(['/entries/*', '/winners/*'])) {
+    setPagePageTopPadding();
+    entryCMSItemPage();
   }
-});
 
-window.Webflow.push(() => {
-  if (isPage('/')) {
-    // Get slider elements
-    const imageSlider = document.querySelector('[slider-element="image-row"]') as HTMLElement;
-    const nextButton = document.querySelector('[slider-element="btn-next"]') as HTMLElement;
-    const prevButton = document.querySelector('[slider-element="btn-prev"]') as HTMLElement;
-
-    if (!imageSlider) {
-      throw new Error(
-        'Image slider element not found. Please check that element with slider-element="image row" exists.'
-      );
-    }
-    if (!nextButton) {
-      throw new Error(
-        'Next button element not found. Please check that element with slider-element="btn-next" exists.'
-      );
-    }
-    if (!prevButton) {
-      throw new Error(
-        'Previous button element not found. Please check that element with slider-element="btn-prev" exists.'
-      );
-    }
-
-    if (imageSlider && nextButton && prevButton) {
-      const images = imageSlider.querySelectorAll('img');
-      let currentImageIndex = 0;
-
-      // Add function to calculate the left alignment point
-      const getLeftAlignmentPoint = () => {
-        const windowWidth = window.innerWidth;
-        const maxContainerWidth = 1350; // max-w-7xl equivalent
-        const pagePadding = window.innerWidth * 0.025; // 2.5% of viewport width
-
-        // If window is wider than max container + padding
-        if (windowWidth > maxContainerWidth + pagePadding * 2) {
-          // Center align the container and calculate left point
-          const leftOffset = (windowWidth - maxContainerWidth) / 2;
-          return leftOffset;
-        }
-        // Use page padding as alignment point
-        return pagePadding;
-      };
-
-      // Update scroll calculation
-      const scrollToImage = (index: number) => {
-        const currentImage = images[index] as HTMLElement;
-        const alignmentPoint = getLeftAlignmentPoint();
-        const scrollPosition = currentImage.offsetLeft - alignmentPoint;
-
-        imageSlider.scrollTo({
-          left: scrollPosition,
-          behavior: 'smooth',
-        });
-      };
-
-      // Update click handlers
-      nextButton.addEventListener('click', () => {
-        if (currentImageIndex < images.length - 1) {
-          currentImageIndex = currentImageIndex + 1;
-          scrollToImage(currentImageIndex);
-        } else {
-          currentImageIndex = 0;
-          scrollToImage(currentImageIndex);
-        }
-      });
-
-      prevButton.addEventListener('click', () => {
-        if (currentImageIndex > 0) {
-          currentImageIndex = currentImageIndex - 1;
-          scrollToImage(currentImageIndex);
-        } else {
-          currentImageIndex = images.length - 1;
-          scrollToImage(currentImageIndex);
-        }
-      });
-
-      // Optional: Update alignment on window resize
-      window.addEventListener('resize', () => {
-        scrollToImage(currentImageIndex);
-      });
-    }
+  if (isPage(['/entries'])) {
+    // console.log('entries page');
+    filters();
+    flipWinnerItemPosition();
+    // initSwiper();
   }
-});
 
-window.Webflow.push(() => {
   if (isPage('/')) {
     heroImageMarquee();
+    heroLogoMarquee();
+    introAnimation();
+    prizesAnimation();
+    imageMarquee();
+    parallaxBackground();
+    competitionDates();
+    categoryLayout();
+    inspirationImageRowPadding();
+    inspirationImageSlider();
+    filters();
+
+    // List all ScrollTrigger instances and their IDs
+    const listScrollTriggers = () => {
+      const allScrollTriggers = ScrollTrigger.getAll();
+      console.log('Active ScrollTrigger instances:', allScrollTriggers.length);
+
+      allScrollTriggers.forEach((trigger) => {
+        console.log(`ScrollTrigger ${trigger.vars.id ? `ID: ${trigger.vars.id}` : '(no ID)'}`);
+        console.log('- Trigger element:', trigger.trigger);
+        console.log('- Start/End:', trigger.start, trigger.end);
+        console.log('------------------------');
+      });
+    };
+
+    // Call after all other ScrollTrigger animations are initialized
+    setTimeout(listScrollTriggers, 1000);
   }
+});
+
+window.Webflow.push(async () => {
+  await initJotForm();
 });
 
 window.Webflow.push(() => {
