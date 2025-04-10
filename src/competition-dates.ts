@@ -19,15 +19,15 @@ const updateStickyImageTop = () => {
   try {
     const stickyImages = document.querySelectorAll<HTMLElement>(SELECTORS.stickyImage);
     if (!stickyImages.length) {
-      console.warn('No sticky images found to update positions');
+      console.error('No sticky images found to update positions');
       return;
     }
     const { fullHeight } = getViewportHeightMeasurements();
-    console.log('Viewport height:', fullHeight);
-    stickyImages.forEach((stickyImage, index) => {
+    // console.log('Viewport height:', fullHeight);
+    stickyImages.forEach((stickyImage) => {
       const imageChild = stickyImage.firstElementChild;
       if (!imageChild) {
-        console.warn('Sticky image container has no child element');
+        console.error('Sticky image container has no child element');
         return;
       }
       const imageHeight = imageChild.getBoundingClientRect().height;
@@ -35,14 +35,14 @@ const updateStickyImageTop = () => {
       // Apply the new position
       stickyImage.style.top = `${topOffset}px`;
       // Log for debugging
-      console.log(`Sticky image ${index} updated: height=${imageHeight}, top=${topOffset}px`);
+      //   console.log(`Sticky image ${index} updated: height=${imageHeight}, top=${topOffset}px`);
     });
   } catch (error) {
     console.error('Error updating sticky image positions:', error);
   }
 };
 
-const setupElementAnimations = (img: Element, info: Element, index: number, debug: boolean) => {
+const setupElementAnimations = (img: Element, info: Element, index: number) => {
   const getRandomRotation = () => {
     const [min, max] = ANIMATION_CONFIG.rotationRange;
     return Math.random() * (max - min) + min;
@@ -63,6 +63,7 @@ const setupElementAnimations = (img: Element, info: Element, index: number, debu
       end: 'bottom 30%',
       toggleActions: 'play none none reverse',
       id: `competitionDatesAnimation${index}`,
+      //   markers: true,
     },
   });
 
@@ -91,7 +92,7 @@ const setupElementAnimations = (img: Element, info: Element, index: number, debu
   );
 };
 
-const competitionDates = (debug: boolean = false) => {
+const competitionDates = () => {
   try {
     // Check if we're on mobile - if so, don't set up animations
     if (isMobile()) {
@@ -108,7 +109,7 @@ const competitionDates = (debug: boolean = false) => {
       const info = document.querySelectorAll(SELECTORS.info);
 
       if (!images.length || !info.length) {
-        console.warn('Required competition dates elements not found during reinitialization');
+        console.error('Required competition dates elements not found during reinitialization');
         return;
       }
 
@@ -119,7 +120,7 @@ const competitionDates = (debug: boolean = false) => {
       images.forEach((img, index) => {
         const correspondingInfo = info[index];
         if (correspondingInfo) {
-          setupElementAnimations(img, correspondingInfo, index, debug);
+          setupElementAnimations(img, correspondingInfo, index);
         }
       });
     };
