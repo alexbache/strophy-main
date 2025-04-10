@@ -302,7 +302,7 @@ const handleMarqueeResize = (): void => {
 
   // Only proceed if width changed or height changed significantly (>100px)
   // Height threshold helps ignore URL bar show/hide
-  if (currentWidth === lastWidth && Math.abs(currentHeight - lastHeight) < 100) {
+  if (currentWidth === lastWidth && Math.abs(currentHeight - lastHeight) < 250) {
     return;
   }
 
