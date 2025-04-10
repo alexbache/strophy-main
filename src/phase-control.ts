@@ -67,6 +67,10 @@ interface MarqueeRow extends Element {
   _timerInterval?: ReturnType<typeof setInterval>;
 }
 
+// Add missing variables
+let isResizing = false;
+let resizeTimeout: ReturnType<typeof setTimeout>;
+
 /**
  * Time calculation and formatting functions
  */
@@ -288,10 +292,24 @@ const initMarqueeBanner = (): void => {
   });
 };
 
-let isResizing = false;
-let resizeTimeout: ReturnType<typeof setTimeout>;
+let lastWidth = window.innerWidth;
+let lastHeight = window.innerHeight;
 
 const handleMarqueeResize = (): void => {
+  // Check if dimensions actually changed meaningfully
+  const currentWidth = window.innerWidth;
+  const currentHeight = window.innerHeight;
+
+  // Only proceed if width changed or height changed significantly (>100px)
+  // Height threshold helps ignore URL bar show/hide
+  if (currentWidth === lastWidth && Math.abs(currentHeight - lastHeight) < 100) {
+    return;
+  }
+
+  // Update stored dimensions
+  lastWidth = currentWidth;
+  lastHeight = currentHeight;
+
   const rows = document.querySelectorAll(MARQUEE_SELECTORS.row);
   if (!rows.length) return;
 

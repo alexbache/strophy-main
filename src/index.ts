@@ -13,7 +13,7 @@ import { heroLogoMarquee } from './hero-marquee';
 import { inspirationImageRowPadding, inspirationImageSlider } from './inspiration';
 import { introAnimation } from './intro-scene';
 import { initJotForm } from './jotform';
-import { animateNavLogo, navMenuPosition } from './nav';
+import { initNav } from './nav';
 import { parallaxBackground } from './parallax-bg';
 import { phaseControl } from './phase-control';
 import { isPage } from './utils/ispage';
@@ -22,11 +22,10 @@ import { flipWinnerItemPosition } from './winners';
 
 window.Webflow ||= [];
 window.Webflow.push(() => {
-  handleExternalLinks();
-  navMenuPosition();
-  animateNavLogo();
+  initNav();
   phaseControl();
   initContactModal();
+  handleExternalLinks();
 
   if (isPage(['/entries/*', '/winners/*'])) {
     setPagePageTopPadding();

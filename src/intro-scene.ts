@@ -7,7 +7,12 @@ import { isMobile } from './utils/pageUtils';
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(TextPlugin);
 
-export const introAnimation = () => {
+const introState = {
+  isAnimationComplete: false,
+  currentHeight: 0,
+};
+
+const introAnimation = () => {
   const SELECTORS = {
     headingWrap: '#intro-heading-wrap',
     heading: '#intro-heading',
@@ -23,6 +28,10 @@ export const introAnimation = () => {
   }
 
   const initAnimation = () => {
+    // Reset state when animation starts
+    introState.isAnimationComplete = false;
+    introState.currentHeight = isMobile() ? 4 : 10;
+
     // Instead of killing all ScrollTriggers, only kill this specific one
     ScrollTrigger.getAll()
       .filter((trigger) => trigger.vars.id === 'introAnimation')
@@ -37,18 +46,17 @@ export const introAnimation = () => {
     gsap.set(heading, {
       display: 'block',
       opacity: 0,
-      y: 30, // Reduced movement for smoother fade
+      //   y: 30, // Reduced movement for smoother fade
     });
 
     // Create the scroll-triggered animation
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: headingWrap,
-        start: 'top 55%',
-        end: 'bottom 15%',
-        scrub: 3,
-        // markers: true,
-        toggleActions: 'play reverse play reverse',
+        start: 'top 70%',
+        end: 'bottom 20%',
+        // scrub: 1,
+        toggleActions: 'play none none none',
         id: 'introAnimation', // Add unique identifier
       },
     });
@@ -56,14 +64,21 @@ export const introAnimation = () => {
     tl.to(headingWrap, {
       height: isMobile() ? 280 : 500,
       opacity: 1,
-      duration: 1.5,
+      duration: 0.5,
       ease: 'power2.out',
+      onUpdate: () => {
+        // Update current height during animation
+        introState.currentHeight = (headingWrap as HTMLElement).offsetHeight;
+      },
     }).to(heading, {
       opacity: 1,
       y: 0,
-      duration: 3.5,
+      duration: 0.5,
       ease: 'power2.out',
-      scrub: 3,
+      onComplete: () => {
+        ScrollTrigger.refresh();
+        introState.isAnimationComplete = true;
+      },
       text: {
         value: headingText,
         oldClass: 'heading-style-intro-muted',
@@ -71,7 +86,7 @@ export const introAnimation = () => {
       },
     });
 
-    ScrollTrigger.refresh();
+    // ScrollTrigger.refresh();
   };
 
   // Initial call
@@ -88,3 +103,5 @@ export const introAnimation = () => {
       .forEach((trigger) => trigger.kill());
   };
 };
+
+export { introAnimation, introState };
