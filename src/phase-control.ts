@@ -73,6 +73,8 @@ let resizeTimeout: ReturnType<typeof setTimeout>;
 
 /**
  * Time calculation and formatting functions
+ * @param targetDate - The date to calculate the time remaining to
+ * @returns The time remaining to the target date
  */
 const calculateTimeRemaining = (targetDate: Date): TimeRemaining | null => {
   const now = new Date();
@@ -89,8 +91,8 @@ const calculateTimeRemaining = (targetDate: Date): TimeRemaining | null => {
 };
 
 const formatTimeDisplay = (time: TimeRemaining): string => {
-  const { days, hours, minutes, seconds } = time;
-  return `${days}d ${hours}h ${minutes}m ${seconds}s.`;
+  const { days, hours } = time;
+  return `${days}d ${hours}h.`;
 };
 
 /**
@@ -300,8 +302,7 @@ const handleMarqueeResize = (): void => {
   const currentWidth = window.innerWidth;
   const currentHeight = window.innerHeight;
 
-  // Only proceed if width changed or height changed significantly (>100px)
-  // Height threshold helps ignore URL bar show/hide
+  // Height threshold helps ignore URL bar show/hide on mobile
   if (currentWidth === lastWidth && Math.abs(currentHeight - lastHeight) < 300) {
     return;
   }

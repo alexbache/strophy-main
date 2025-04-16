@@ -6,8 +6,8 @@ import { imageMarquee, prizesAnimation } from './cash-prizes';
 import { categoryLayout } from './categories';
 import { competitionDates } from './competition-dates';
 import { initContactModal } from './contact-modal';
+import { filters } from './entries/filters';
 import { entryCMSItemPage } from './entry-cms-item-page';
-import { filters } from './filters';
 import { heroImageMarquee } from './hero-marquee';
 import { heroLogoMarquee } from './hero-marquee';
 import { inspirationImageRowPadding, inspirationImageSlider } from './inspiration';
@@ -36,7 +36,6 @@ window.Webflow.push(() => {
     // console.log('entries page');
     filters();
     flipWinnerItemPosition();
-    // initSwiper();
   }
 
   if (isPage('/')) {
