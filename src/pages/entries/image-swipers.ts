@@ -1,9 +1,10 @@
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import { isMobile } from 'src/utils/pageUtils';
 import Swiper from 'swiper';
 import { Pagination } from 'swiper/modules';
+
+import { isMobile } from '$utils/page-utils';
 
 import { setFilterValue } from '../../components/filters';
 import { SWIPER_SELECTORS } from '../../components/filters';

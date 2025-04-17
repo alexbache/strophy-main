@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import { getViewportHeightMeasurements, isMobile } from '../../../utils/pageUtils';
+import { getViewportHeightMeasurements, isMobile } from '../../../utils/page-utils';
 
 const SELECTORS = {
   image: '[date-element="image"]',

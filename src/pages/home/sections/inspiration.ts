@@ -1,4 +1,4 @@
-import { isDesktop } from 'src/utils/pageUtils';
+import { isDesktop } from '$utils/page-utils';
 
 const SELECTORS = {
   imageRowList: '#inspiration-image-row-list',
