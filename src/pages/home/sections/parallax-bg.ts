@@ -3,7 +3,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const parallaxBackground = () => {
+const parallaxBackground = () => {
   const SELECTORS = {
     BG_ELEMENT: '[custom-action="parallax-bg"]',
   };
@@ -47,3 +47,9 @@ export const parallaxBackground = () => {
     };
   });
 };
+
+const initParallaxBackground = () => {
+  parallaxBackground();
+};
+
+export { initParallaxBackground };

@@ -1,5 +1,8 @@
-import { goToSlide, initSwiper } from './imageSwipers';
-import { getCategorySlideIndices, sortMobileWinnerSwiperItemPosition } from './winners';
+import { goToSlide, initSwiper } from '../pages/entries/image-swipers';
+import {
+  getCategorySlideIndices,
+  sortMobileWinnerSwiperItemPosition,
+} from '../pages/entries/winners-mobile';
 
 // Generic selectors that will be used to find filter elements
 const SELECTORS = {
@@ -13,16 +16,23 @@ const ATTRIBUTES = {
   LIST_ID: 'data-filter-list-id',
   FILTER_VALUE: 'data-filter-value',
   FILTER_MATCH: 'data-filter-match',
+  SWIPER_ID: 'data-filter-swiper-id',
 };
 
 const CLASSES = {
   ACTIVE: 'is-active',
 };
 
+export const SWIPER_SELECTORS = {
+  winners: '.swiper.mobile-winners',
+  'featured-entries': '.swiper.featured-entries',
+};
+
 type FilterState = {
-  setFilter: (value: string, source: FilterState['source']) => void;
+  setFilter: (value: string, source: FilterState['source'], groupId: string) => void;
   currentValue: string;
   source: 'button' | 'swiper' | 'initial';
+  hasSwiper: boolean;
 };
 
 const actionHandlers = {
@@ -60,22 +70,35 @@ const actionHandlers = {
       }
     });
   },
-  goToCategorySlide: (categoryString: string) => {
+  goToCategorySlide: (groupId: string, categoryString: string) => {
     sortMobileWinnerSwiperItemPosition();
     const categoryStartIndices = getCategorySlideIndices();
     const slideIndex = categoryStartIndices[categoryString];
 
-    goToSlide('.swiper.mobile-winners', slideIndex);
+    goToSlide(groupId, slideIndex);
   },
 };
 
 /**
  * Updates a button's styling based on active state
  */
-const updateTriggerStyle = (trigger: HTMLElement, isActive: boolean) => {
+const updateTriggerStyle = (
+  trigger: HTMLElement,
+  isActive: boolean,
+  source: FilterState['source'],
+  groupId: string
+) => {
   try {
     if (isActive) {
       trigger.classList.add(CLASSES.ACTIVE);
+      // Only scroll into view if triggered by swiper
+      if (source === 'swiper' && FILTER_STATE.get(groupId)?.hasSwiper) {
+        trigger.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center',
+        });
+      }
     } else {
       trigger.classList.remove(CLASSES.ACTIVE);
     }
@@ -87,7 +110,12 @@ const updateTriggerStyle = (trigger: HTMLElement, isActive: boolean) => {
 /**
  * Updates all button styles based on the current active filter
  */
-const updateAllTriggerStyles = (filterGroup: HTMLElement, activeFilter: string) => {
+const updateAllTriggerStyles = (
+  filterGroup: HTMLElement,
+  activeFilter: string,
+  source: FilterState['source'],
+  groupId: string
+) => {
   if (!filterGroup || !activeFilter) {
     console.error('Missing params for updateAllTriggerStyles');
     return;
@@ -96,7 +124,7 @@ const updateAllTriggerStyles = (filterGroup: HTMLElement, activeFilter: string) 
   triggers.forEach((trigger) => {
     const value = trigger.getAttribute(ATTRIBUTES.FILTER_VALUE);
     if (value) {
-      updateTriggerStyle(trigger as HTMLElement, value === activeFilter);
+      updateTriggerStyle(trigger as HTMLElement, value === activeFilter, source, groupId);
     }
   });
 };
@@ -106,10 +134,9 @@ const updateAllTriggerStyles = (filterGroup: HTMLElement, activeFilter: string) 
 const applyFilter = (groupId: string, activeFilter: string, source: FilterState['source']) => {
   try {
     actionHandlers.hide(groupId, activeFilter);
-    if (source === 'swiper') {
-      return;
+    if (source === 'button') {
+      actionHandlers.goToCategorySlide(groupId, activeFilter);
     }
-    actionHandlers.goToCategorySlide(activeFilter);
   } catch (error) {
     console.error(`Error applying filter: ${error}`);
   }
@@ -142,16 +169,16 @@ function initializeFilterSystem(groupId: string) {
       return;
     }
 
-    const setActiveFilter = (value: string, source: FilterState['source']) => {
+    const setActiveFilter = (value: string, source: FilterState['source'], groupId: string) => {
       try {
         activeFilter = value;
-        // Update the stored state when filter changes
         const currentState = FILTER_STATE.get(groupId);
         if (currentState) {
           currentState.currentValue = value;
           currentState.source = source;
         }
-        updateAllTriggerStyles(filterGroup, activeFilter);
+        console.log('setting active filter', activeFilter, source, groupId);
+        updateAllTriggerStyles(filterGroup, activeFilter, source, groupId);
         applyFilter(groupId, activeFilter, source);
       } catch (error) {
         console.error(`Error setting active filter: ${error}`);
@@ -163,6 +190,7 @@ function initializeFilterSystem(groupId: string) {
       setFilter: setActiveFilter,
       currentValue: activeFilter,
       source: 'initial',
+      hasSwiper: false,
     });
 
     /**
@@ -178,7 +206,7 @@ function initializeFilterSystem(groupId: string) {
           trigger.addEventListener('click', () => {
             const value = trigger.getAttribute(ATTRIBUTES.FILTER_VALUE);
             if (value) {
-              setActiveFilter(value, 'button');
+              setActiveFilter(value, 'button', groupId);
             }
           });
         });
@@ -199,7 +227,14 @@ function initializeFilterSystem(groupId: string) {
 
       const firstValue = firstTrigger.getAttribute(ATTRIBUTES.FILTER_VALUE);
       if (firstValue) {
-        setActiveFilter(firstValue, 'initial');
+        setActiveFilter(firstValue, 'initial', groupId);
+      }
+    };
+
+    const setHasSwiper = (hasSwiper: boolean) => {
+      const currentState = FILTER_STATE.get(groupId);
+      if (currentState) {
+        currentState.hasSwiper = hasSwiper;
       }
     };
 
@@ -211,7 +246,16 @@ function initializeFilterSystem(groupId: string) {
         // sortWinnerItemPosition();
         initTriggers();
         setInitialFilter();
-        initSwiper();
+        const swiperId = document
+          .querySelector(`[${ATTRIBUTES.SWIPER_ID}="${groupId}"]`)
+          ?.getAttribute(ATTRIBUTES.SWIPER_ID);
+        if (swiperId) {
+          initSwiper(swiperId);
+          setHasSwiper(true);
+        }
+
+        // Initialize the featured entries swiper
+        initSwiper('featured-entries');
       } catch (error) {
         console.error(`Error in init function: ${error}`);
       }
@@ -261,7 +305,7 @@ export function setFilterValue(groupId: string, value: string, source: FilterSta
     return;
   }
   if (filterState.currentValue !== value) {
-    filterState.setFilter(value, source);
+    filterState.setFilter(value, source, groupId);
   }
 }
 
@@ -269,4 +313,8 @@ export function getCurrentFilterValue(groupId: string): string | undefined {
   return FILTER_STATE.get(groupId)?.currentValue;
 }
 
-export { filters };
+const initFilters = () => {
+  filters();
+};
+
+export { initFilters };

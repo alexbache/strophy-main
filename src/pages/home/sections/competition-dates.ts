@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import { getViewportHeightMeasurements, isMobile } from './utils/pageUtils';
+import { getViewportHeightMeasurements, isMobile } from '../../../utils/pageUtils';
 
 const SELECTORS = {
   image: '[date-element="image"]',
@@ -152,4 +152,8 @@ const competitionDates = () => {
   }
 };
 
-export { competitionDates };
+const initCompetitionDates = () => {
+  competitionDates();
+};
+
+export { initCompetitionDates };

@@ -1,17 +1,16 @@
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+import { isMobile } from 'src/utils/pageUtils';
 import Swiper from 'swiper';
 import { Pagination } from 'swiper/modules';
 
-import { isMobile } from '$utils/pageUtils';
+import { setFilterValue } from '../../components/filters';
+import { SWIPER_SELECTORS } from '../../components/filters';
+import { getCategorySlideIndices } from '../entries/winners-mobile';
 
-import { setFilterValue } from './filters';
-import { getCategorySlideIndices } from './winners';
-
-const handleSlideChange = (swiper: Swiper) => {
+const handleSlideChange = (groupId: string, activeIndex: number) => {
   const categoryStartIndices = getCategorySlideIndices();
-  const { activeIndex } = swiper;
 
   // Find the current category by sorting indices and finding the last one that's less than or equal to activeIndex
   const activeCategory = Object.entries(categoryStartIndices)
@@ -24,13 +23,14 @@ const handleSlideChange = (swiper: Swiper) => {
   const currentCategory = activeCategory ? activeCategory[0] : null;
   // Track previous category to detect chang
   if (currentCategory) {
-    setFilterValue('winners', currentCategory, 'swiper');
+    setFilterValue(groupId, currentCategory, 'swiper');
   }
 
   return;
 };
 
-const initSwiper = () => {
+const initSwiper = (groupId: string) => {
+  console.log('initSwiper', groupId);
   let swiper: Swiper | null = null;
 
   const initializeMobileSwiper = () => {
@@ -42,9 +42,28 @@ const initSwiper = () => {
       return;
     }
 
-    // Add delay before initializing swiper
+    // Check if the groupId exists in SWIPER_SELECTORS
+    if (!(groupId in SWIPER_SELECTORS)) {
+      console.error(`No swiper selector found for group: ${groupId}`);
+      return;
+    }
 
-    swiper = new Swiper('.swiper.mobile-winners', {
+    const swiperSelector = SWIPER_SELECTORS[groupId as keyof typeof SWIPER_SELECTORS];
+
+    const swiperTargetElement = document.querySelector(swiperSelector);
+    if (!swiperTargetElement) {
+      console.error(`No swiper element found for group: ${groupId}`);
+      return;
+    }
+
+    const paginationDiv = document.createElement('div');
+    paginationDiv.classList.add('swiper-pagination');
+    swiperTargetElement.appendChild(paginationDiv);
+
+    console.log('swiperTargetElement', swiperTargetElement);
+    console.log('paginationDiv', paginationDiv);
+
+    swiper = new Swiper(swiperSelector, {
       modules: [Pagination],
       slidesPerView: 1,
       spaceBetween: 20,
@@ -52,15 +71,17 @@ const initSwiper = () => {
       loop: false,
       centeredSlides: true,
       initialSlide: 0,
-      pagination: {
-        el: '.swiper-pagination',
-        type: 'bullets',
-      },
+      // pagination: {
+      //   el: '.swiper-pagination',
+      //   type: 'bullets',
+      //   bulletClass: 'pagination-bullet',
+      //   bulletActiveClass: 'pagination-bullet-active',
+      //   bulletElement: 'div',
+      //   clickable: true,
+      //   dynamicBullets: true,
+      // },
       on: {
-        init: () => {
-          console.log('swiper initialized with slides:', swiper?.slides.length);
-        },
-        slideChange: handleSlideChange,
+        slideChange: ({ activeIndex }) => handleSlideChange(groupId, activeIndex),
       },
     });
   };
@@ -102,13 +123,13 @@ const getSwiperInstance = (selector: string): Swiper | null => {
   return (swiperElement as unknown as { swiper: Swiper }).swiper;
 };
 
-const goToSlide = (swiperSelector: string, slideIndex: number) => {
-  const swiper = getSwiperInstance(swiperSelector);
-  console.log(`swiper: ${swiperSelector}`, swiper);
+const goToSlide = (groupId: string, slideIndex: number) => {
+  const swiper = getSwiperInstance(SWIPER_SELECTORS[groupId as keyof typeof SWIPER_SELECTORS]);
+  // console.log(`swiper: ${SWIPER_SELECTORS[groupId as keyof typeof SWIPER_SELECTORS]}`, swiper);
   if (!swiper) return;
   swiper.update();
   swiper.slideTo(slideIndex);
-  console.log('goToSlide', swiper, slideIndex, swiper.activeIndex);
+  // console.log('goToSlide', swiper, slideIndex, swiper.activeIndex);
 };
 
 export { getSwiperInstance, goToSlide, initSwiper };

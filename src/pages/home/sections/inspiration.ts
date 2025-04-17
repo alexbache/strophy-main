@@ -1,4 +1,4 @@
-import { isDesktop } from '$utils/pageUtils';
+import { isDesktop } from 'src/utils/pageUtils';
 
 const SELECTORS = {
   imageRowList: '#inspiration-image-row-list',
@@ -116,4 +116,9 @@ const inspirationImageSlider = () => {
   };
 };
 
-export { inspirationImageRowPadding, inspirationImageSlider };
+const initInspirationImageSlider = () => {
+  inspirationImageRowPadding();
+  inspirationImageSlider();
+};
+
+export { initInspirationImageSlider };

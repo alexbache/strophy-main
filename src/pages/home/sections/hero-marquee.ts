@@ -1,6 +1,6 @@
 import { gsap } from 'gsap';
 
-import { isTablet } from './utils/pageUtils';
+import { isTablet } from '../../../utils/pageUtils';
 
 const heroImageMarquee = () => {
   try {
@@ -136,4 +136,9 @@ const heroLogoMarquee = () => {
   };
 };
 
-export { heroImageMarquee, heroLogoMarquee };
+const initHeroMarquee = () => {
+  heroImageMarquee();
+  heroLogoMarquee();
+};
+
+export { initHeroMarquee };

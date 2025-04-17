@@ -5,6 +5,14 @@ const SELECTORS = {
   itemLayout: '[data-alternate-layout="item"]',
 };
 
+/**
+ * Selectors used to target DOM elements for winner layout manipulation
+ * @constant {Object} SELECTORS
+ * @property {string} cmsList - Selector for the CMS list container with alternate layout
+ * @property {string} itemPosition - Data attribute for item position
+ * @property {string} infoWrapper - Selector for entry info wrapper element
+ * @property {string} itemLayout - Selector for item layout container
+ */
 const flipWinnerItemPosition = () => {
   // console.log('flipItemPosition');
   const cmsList = document.querySelector(SELECTORS.cmsList) as HTMLElement;
@@ -30,4 +38,8 @@ const flipWinnerItemPosition = () => {
   });
 };
 
-export { flipWinnerItemPosition };
+const initWinnerItemPosition = () => {
+  flipWinnerItemPosition();
+};
+
+export { initWinnerItemPosition };

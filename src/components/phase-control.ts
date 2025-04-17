@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 
-import { isTablet } from './utils/pageUtils';
+import { isTablet } from '../utils/pageUtils';
 
 /**
  * Constants for DOM element selectors
@@ -534,7 +534,7 @@ const initPhaseDisplay = (config: PhaseConfig): PhaseData | null => {
 /**
  * Main entry point for phase control functionality
  */
-export const phaseControl = (): (() => void) | void => {
+const phaseControl = (): (() => void) | void => {
   try {
     // Get configuration from DOM
     const phaseControl = document.querySelector(PHASE_DATA_CONTROL.controlItem);
@@ -589,3 +589,9 @@ export const phaseControl = (): (() => void) | void => {
     console.error('Error initializing phase control:', error);
   }
 };
+
+const initPhaseControl = () => {
+  phaseControl();
+};
+
+export { initPhaseControl };

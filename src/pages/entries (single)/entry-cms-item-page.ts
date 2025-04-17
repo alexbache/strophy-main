@@ -1,4 +1,4 @@
-import { isPage } from '$utils/ispage';
+import { isPage } from 'src/utils/isPage';
 
 /**
  * Orders the winner CMS list for next/previous navigation.

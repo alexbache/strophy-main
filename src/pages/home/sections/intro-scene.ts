@@ -2,7 +2,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextPlugin } from 'gsap/TextPlugin';
 
-import { isMobile } from './utils/pageUtils';
+import { isMobile } from '../../../utils/pageUtils';
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(TextPlugin);
@@ -92,9 +92,6 @@ const introAnimation = () => {
   // Initial call
   initAnimation();
 
-  // Add resize listener
-  window.addEventListener('resize', initAnimation);
-
   // Cleanup function
   return () => {
     window.removeEventListener('resize', initAnimation);
@@ -104,4 +101,22 @@ const introAnimation = () => {
   };
 };
 
-export { introAnimation, introState };
+const initIntroAnimation = () => {
+  introAnimation();
+};
+
+const setEndState = () => {
+  const headingWrap = document.querySelector('#intro-heading-wrap');
+  const heading = document.querySelector('#intro-heading');
+  if (headingWrap && heading) {
+    gsap.set(headingWrap, {
+      height: isMobile() ? 280 : 500,
+      opacity: 1,
+    });
+    gsap.set(heading, {
+      opacity: 1,
+    });
+  }
+};
+
+export { initIntroAnimation, introState, setEndState };

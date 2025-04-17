@@ -60,4 +60,8 @@ const categoryLayout = () => {
   });
 };
 
-export { categoryLayout };
+const initCategoryLayout = () => {
+  categoryLayout();
+};
+
+export { initCategoryLayout };
