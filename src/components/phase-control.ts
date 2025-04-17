@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 
-import { isTablet } from '../utils/pageUtils';
+import { isTablet } from '../utils/page-utils';
 
 /**
  * Constants for DOM element selectors

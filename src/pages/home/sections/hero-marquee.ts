@@ -1,6 +1,6 @@
 import { gsap } from 'gsap';
 
-import { isTablet } from '../../../utils/pageUtils';
+import { isTablet } from '../../../utils/page-utils';
 
 const heroImageMarquee = () => {
   try {

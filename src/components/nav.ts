@@ -1,10 +1,10 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { BREAKPOINTS } from 'src/utils/pageUtils';
 
-import { handleHashLinkNavigation } from '$utils/handleHashLinkNavigation';
+import { handleHashLinkNavigation } from '$utils/handle-hash-link-navigation';
+import { BREAKPOINTS } from '$utils/page-utils';
 
-import { isPage } from '../utils/isPage';
+import { isPage } from '../utils/is-page';
 
 /**
  * Animates the logo in the navbar.

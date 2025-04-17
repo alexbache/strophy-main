@@ -1,4 +1,4 @@
-import { getViewportHeightMeasurements } from '../../../utils/pageUtils';
+import { getViewportHeightMeasurements } from '../../../utils/page-utils';
 
 const SELECTORS = {
   section: '#layout-email-signup',

@@ -1,4 +1,4 @@
-import { setPagePageTopPadding } from 'src/utils/pageUtils';
+import { setPagePageTopPadding } from '$utils/page-utils';
 
 import { initContactModal } from './components/contact-modal';
 import { initFilters } from './components/filters';
@@ -15,8 +15,8 @@ import { initHeroMarquee } from './pages/home/sections/hero-marquee';
 import { initInspirationImageSlider } from './pages/home/sections/inspiration';
 import { initIntroAnimation } from './pages/home/sections/intro-scene';
 import { initParallaxBackground } from './pages/home/sections/parallax-bg';
-import { handleExternalLinks } from './utils/handleExternalLinks';
-import { isPage } from './utils/isPage';
+import { handleExternalLinks } from './utils/handle-external-links';
+import { isPage } from './utils/is-page';
 
 window.Webflow ||= [];
 window.Webflow.push(() => {
