@@ -154,63 +154,65 @@ const handleMobileMenuOpen = () => {
   }
 };
 
-const handleMobileNavAppear = () => {
-  const { navbar } = getMobileMenu();
-  if (!navbar) {
-    console.error('Required navbar element not found');
-    return;
-  }
+// const handleMobileNavAppear = () => {
+//   const { navbar } = getMobileMenu();
+//   if (!navbar) {
+//     console.error('Required navbar element not found');
+//     return;
+//   }
 
-  let lastScrollY = window.scrollY;
-  let isVisible = true;
+//   let lastScrollY = window.scrollY;
+//   let isVisible = true;
 
-  // GSAP timeline for nav animations
-  const navTimeline = gsap.timeline({ paused: true });
-  navTimeline
-    .to(navbar, {
-      yPercent: 0,
-      duration: 0.3,
-      ease: 'power3.inOut',
-    })
-    .to(
-      navbar,
-      {
-        yPercent: -100,
-        duration: 0.3,
-        ease: 'power3.inOut',
-      },
-      '>'
-    );
+//   // GSAP timeline for nav animations
+//   const navTimeline = gsap.timeline({ paused: true });
+//   navTimeline
+//     .to(navbar, {
+//       yPercent: 0,
+//       duration: 0.2,
+//       ease: 'power3.inOut',
+//       delay: 0.2,
+//     })
+//     .to(
+//       navbar,
+//       {
+//         yPercent: -100,
+//         duration: 0.2,
+//         ease: 'power3.inOut',
+//         delay: 0.2,
+//       },
+//       '>'
+//     );
 
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY;
+//   const handleScroll = () => {
+//     const currentScrollY = window.scrollY;
 
-    // Determine scroll direction
-    if (currentScrollY > lastScrollY && isVisible) {
-      // Scrolling down - hide nav
-      navTimeline.play();
-      isVisible = false;
-    } else if (currentScrollY < lastScrollY && !isVisible) {
-      // Scrolling up - show nav
-      navTimeline.reverse();
-      isVisible = true;
-    }
+//     // Determine scroll direction
+//     if (currentScrollY > lastScrollY && isVisible) {
+//       // Scrolling down - hide nav
+//       navTimeline.play();
+//       isVisible = false;
+//     } else if (currentScrollY < lastScrollY && !isVisible) {
+//       // Scrolling up - show nav
+//       navTimeline.reverse();
+//       isVisible = true;
+//     }
 
-    lastScrollY = currentScrollY;
-  };
+//     lastScrollY = currentScrollY;
+//   };
 
-  // Add scroll listener with throttle
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        handleScroll();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  });
-};
+//   // Add scroll listener with throttle
+//   let ticking = false;
+//   window.addEventListener('scroll', () => {
+//     if (!ticking) {
+//       window.requestAnimationFrame(() => {
+//         handleScroll();
+//         ticking = false;
+//       });
+//       ticking = true;
+//     }
+//   });
+// };
 
 const initNav = () => {
   animateNavLogo();
@@ -218,9 +220,9 @@ const initNav = () => {
   handleHashLinkNavigation();
   navMenuPosition();
   handleMobileMenuOpen();
-  if (isMobile()) {
-    handleMobileNavAppear();
-  }
+  // if (isMobile()) {
+  //   handleMobileNavAppear();
+  // }
 };
 
 export { animateNavLogo, getMobileMenu, initNav, navMenuPosition };

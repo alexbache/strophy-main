@@ -7,26 +7,33 @@ const imageMarquee = () => {
     const marqueeRows = document.querySelectorAll('[image-marquee="row"]');
 
     if (!marqueeRows || marqueeRows.length === 0) {
-      console.error(
-        'No marquee rows found. Please check that elements with marquee-element="img-list-wrapper" exist.'
-      );
+      console.error('No marquee rows found.');
       throw new Error('Marquee rows not found');
     }
 
     // Function to update animation for a row
     const updateRowAnimation = (row: Element, image: HTMLImageElement) => {
+      // Only start animation if image has actual dimensions
+      if (!image.complete || image.naturalWidth === 0) {
+        // Wait for image to load before starting animation
+        image.addEventListener('load', () => updateRowAnimation(row, image));
+        return;
+      }
+
       const imageWidth = image.clientWidth;
+      if (imageWidth === 0) {
+        console.warn('Image width is 0, delaying animation');
+        // Retry after a short delay if width is 0
+        setTimeout(() => updateRowAnimation(row, image), 100);
+        return;
+      }
 
-      // Kill any existing animations on this row
       gsap.killTweensOf(row);
-
-      // Create the infinite marquee animation
       gsap.to(row, {
         x: -imageWidth,
         duration: 20,
         ease: 'none',
         repeat: -1,
-        // Ensure smooth looping
         modifiers: {
           x: gsap.utils.unitize((x) => parseFloat(x) % imageWidth),
         },
@@ -40,24 +47,16 @@ const imageMarquee = () => {
         return;
       }
 
-      // Clone the image and append it
-      const clone = image.cloneNode(true);
+      const clone = image.cloneNode(true) as HTMLImageElement;
       row.appendChild(clone);
 
-      // Initial animation setup
+      // Initialize animation and handle resize
       updateRowAnimation(row, image);
 
-      // Update animation on window resize
-      handleResize(
-        () => {
-          updateRowAnimation(row, image);
-        },
-        100,
-        {
-          widthOnly: true,
-          threshold: 10,
-        }
-      );
+      handleResize(() => updateRowAnimation(row, image), 100, {
+        widthOnly: true,
+        threshold: 10,
+      });
     });
   } catch (error) {
     console.error('Error in imageMarquee:', error);

@@ -23,8 +23,9 @@ const heroImageMarquee = () => {
 
     marqueeRows.forEach((row, index) => {
       try {
-        // console.log(`Cloning row ${index + 1}`);
+        console.log(`Cloning row ${index + 1}`);
         const clone = row.cloneNode(true);
+        console.log(`Cloned row ${index + 1}`, clone);
         if (!row.parentNode) {
           console.error(`Parent node not found for row ${index + 1}`);
           return;
