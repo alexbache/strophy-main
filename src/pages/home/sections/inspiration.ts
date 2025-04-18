@@ -1,3 +1,4 @@
+import { handleResize } from '$utils/handle-resize';
 import { isDesktop } from '$utils/page-utils';
 
 const SELECTORS = {
@@ -99,21 +100,17 @@ const inspirationImageSlider = () => {
     scrollToImage(currentImageIndex);
   };
 
-  const handleResize = () => {
+  const reinitialize = () => {
     setupGhostImage();
     scrollToImage(currentImageIndex);
   };
 
   nextButton.addEventListener('click', handleNext);
   prevButton.addEventListener('click', handlePrev);
-  window.addEventListener('resize', handleResize);
-
-  return () => {
-    nextButton.removeEventListener('click', handleNext);
-    prevButton.removeEventListener('click', handlePrev);
-    window.removeEventListener('resize', handleResize);
-    ghostImage?.remove();
-  };
+  handleResize(reinitialize, 100, {
+    widthOnly: true,
+    threshold: 10,
+  });
 };
 
 const initInspirationImageSlider = () => {

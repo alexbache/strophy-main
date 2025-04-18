@@ -1,7 +1,8 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import { getViewportHeightMeasurements, isMobile } from '../../../utils/page-utils';
+import { handleResize } from '$utils/handle-resize';
+import { getViewportHeightMeasurements, isMobile } from '$utils/page-utils';
 
 const SELECTORS = {
   image: '[date-element="image"]',
@@ -129,22 +130,13 @@ const competitionDates = () => {
     gsap.registerPlugin(ScrollTrigger);
     reinitialize();
 
-    // Handle resize events with debouncing
-    let resizeTimeout: number;
-    const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        // Completely reinitialize everything
-        reinitialize();
-      }, 250);
-    };
-
-    window.addEventListener('resize', handleResize);
+    handleResize(reinitialize, 100, {
+      widthOnly: true,
+      threshold: 10,
+    });
 
     return () => {
       ScrollTrigger.getById('competitionDatesAnimation0')?.kill();
-      window.removeEventListener('resize', handleResize);
-      clearTimeout(resizeTimeout);
     };
   } catch (error) {
     console.error('Error initializing competition dates:', error);

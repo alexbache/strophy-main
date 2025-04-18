@@ -1,68 +1,71 @@
+import gsap from 'gsap';
+
+import { handleResize } from '$utils/handle-resize';
+
 const imageMarquee = () => {
-  const marqueeRows = document.querySelectorAll('[image-marquee="row"]');
+  try {
+    const marqueeRows = document.querySelectorAll('[image-marquee="row"]');
 
-  if (!marqueeRows || marqueeRows.length === 0) {
-    console.error(
-      'No marquee rows found. Please check that elements with marquee-element="img-list-wrapper" exist.'
-    );
-    throw new Error('Marquee rows not found');
-  }
-
-  // Function to update animation for a row
-  const updateRowAnimation = (row: Element, image: HTMLImageElement) => {
-    const imageWidth = image.clientWidth;
-
-    // Create unique animation name for this row
-    const animationName = `marqueeScroll_${Math.random().toString(36).substr(2, 9)}`;
-
-    // Create keyframe animation
-    const keyframes = `
-          @keyframes ${animationName} {
-            0% {
-              transform: translateX(0);
-            }
-            100% {
-              transform: translateX(-${imageWidth}px);
-            }
-          }
-        `;
-
-    // Create and append style element
-    const styleId = `style_${animationName}`;
-    let style = document.getElementById(styleId);
-    if (!style) {
-      style = document.createElement('style');
-      style.id = styleId;
-      document.head.appendChild(style);
-    }
-    style.textContent = keyframes;
-
-    // Apply animation to row
-    (row as HTMLElement).style.animation = `${animationName} 20s linear infinite`;
-  };
-
-  marqueeRows.forEach((row) => {
-    const image = row.querySelector('img');
-    if (!image) {
-      console.error('No image found in marquee row');
-      return;
+    if (!marqueeRows || marqueeRows.length === 0) {
+      console.error(
+        'No marquee rows found. Please check that elements with marquee-element="img-list-wrapper" exist.'
+      );
+      throw new Error('Marquee rows not found');
     }
 
-    const clone = image.cloneNode(true);
-    row.appendChild(clone);
+    // Function to update animation for a row
+    const updateRowAnimation = (row: Element, image: HTMLImageElement) => {
+      const imageWidth = image.clientWidth;
 
-    // Initial animation setup
-    updateRowAnimation(row, image);
+      // Kill any existing animations on this row
+      gsap.killTweensOf(row);
 
-    // Update animation on window resize
-    window.addEventListener('resize', () => {
+      // Create the infinite marquee animation
+      gsap.to(row, {
+        x: -imageWidth,
+        duration: 20,
+        ease: 'none',
+        repeat: -1,
+        // Ensure smooth looping
+        modifiers: {
+          x: gsap.utils.unitize((x) => parseFloat(x) % imageWidth),
+        },
+      });
+    };
+
+    marqueeRows.forEach((row) => {
+      const image = row.querySelector('img');
+      if (!image) {
+        console.error('No image found in marquee row');
+        return;
+      }
+
+      // Clone the image and append it
+      const clone = image.cloneNode(true);
+      row.appendChild(clone);
+
+      // Initial animation setup
       updateRowAnimation(row, image);
+
+      // Update animation on window resize
+      handleResize(
+        () => {
+          updateRowAnimation(row, image);
+        },
+        100,
+        {
+          widthOnly: true,
+          threshold: 10,
+        }
+      );
     });
-  });
+  } catch (error) {
+    console.error('Error in imageMarquee:', error);
+  }
 };
 
-const initImageMarquee = () => {
+const initPrizesBgMarquee = () => {
   imageMarquee();
 };
 
-export { initImageMarquee };
+export { initPrizesBgMarquee };
