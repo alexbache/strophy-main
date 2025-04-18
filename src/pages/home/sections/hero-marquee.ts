@@ -1,8 +1,15 @@
 import { gsap } from 'gsap';
 
+import { handleResize } from '$utils/handle-resize';
+
 import { isTablet } from '../../../utils/page-utils';
 
 const heroImageMarquee = () => {
+  const SELECTORS = {
+    marqueeLeft: '.intro-marquee.marquee-left',
+    marqueeRight: '.intro-marquee.marquee-right',
+  };
+
   try {
     const marqueeRows = document.querySelectorAll('[marquee-element="img-list-wrapper"]');
 
@@ -10,7 +17,6 @@ const heroImageMarquee = () => {
       console.error(
         'No marquee rows found. Please check that elements with marquee-element="img-list-wrapper" exist.'
       );
-      throw new Error('Marquee rows not found');
     }
 
     // console.log(`Found ${marqueeRows.length} marquee rows`);
@@ -31,9 +37,50 @@ const heroImageMarquee = () => {
   } catch (err) {
     console.error('Error in heroImageMarquee:', err);
   }
+
+  // Set up GSAP animations for left and right marquees
+  const leftMarquees = document.querySelectorAll(SELECTORS.marqueeLeft);
+  const rightMarquees = document.querySelectorAll(SELECTORS.marqueeRight);
+
+  if (!leftMarquees.length || !rightMarquees.length) {
+    console.error('Marquee elements not found');
+    return;
+  }
+
+  // Animate left marquees
+  leftMarquees.forEach((marquee) => {
+    gsap.fromTo(
+      marquee,
+      {
+        xPercent: 0,
+      },
+      {
+        xPercent: -50,
+        ease: 'none',
+        duration: 40,
+        repeat: -1,
+      }
+    );
+  });
+
+  // Animate right marquees
+  rightMarquees.forEach((marquee) => {
+    gsap.fromTo(
+      marquee,
+      {
+        xPercent: -50,
+      },
+      {
+        xPercent: 0,
+        ease: 'none',
+        duration: 40,
+        repeat: -1,
+      }
+    );
+  });
 };
 
-const heroLogoMarquee = () => {
+const LogoMarquee = () => {
   const initMarquee = () => {
     try {
       //   console.log('Initializing hero logo marquee');
@@ -123,22 +170,15 @@ const heroLogoMarquee = () => {
   }
 
   // Add resize listener
-  window.addEventListener('resize', initMarquee);
-
-  // Cleanup function
-  return () => {
-    try {
-      window.removeEventListener('resize', initMarquee);
-      gsap.killTweensOf('[logo-marquee-element="outer-row"] > *');
-    } catch (err) {
-      console.error('Error during cleanup:', err);
-    }
-  };
+  handleResize(initMarquee, 100, {
+    widthOnly: true,
+    threshold: 10,
+  });
 };
 
 const initHeroMarquee = () => {
   heroImageMarquee();
-  heroLogoMarquee();
+  LogoMarquee();
 };
 
-export { initHeroMarquee };
+export { initHeroMarquee, LogoMarquee };

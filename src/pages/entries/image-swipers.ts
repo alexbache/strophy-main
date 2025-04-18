@@ -4,6 +4,7 @@ import 'swiper/css/pagination';
 import Swiper from 'swiper';
 import { Pagination } from 'swiper/modules';
 
+import { handleResize } from '$utils/handle-resize';
 import { isMobile } from '$utils/page-utils';
 
 import { setFilterValue } from '../../components/filters';
@@ -90,25 +91,10 @@ const initSwiper = (groupId: string) => {
   // Initial setup
   initializeMobileSwiper();
 
-  // Handle resize events with debouncing
-  let resizeTimeout: number;
-  const handleResize = () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      initializeMobileSwiper();
-    }, 250);
-  };
-
-  window.addEventListener('resize', handleResize);
-
-  // Return cleanup function
-  return () => {
-    if (swiper) {
-      swiper.destroy();
-    }
-    window.removeEventListener('resize', handleResize);
-    clearTimeout(resizeTimeout);
-  };
+  handleResize(initializeMobileSwiper, 100, {
+    widthOnly: true,
+    threshold: 10,
+  });
 };
 
 /**

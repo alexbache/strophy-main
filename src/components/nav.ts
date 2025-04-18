@@ -2,7 +2,11 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { handleHashLinkNavigation } from '$utils/handle-hash-link-navigation';
+import { handleResize } from '$utils/handle-resize';
+import { isDesktop } from '$utils/page-utils';
+import { isMobile } from '$utils/page-utils';
 import { BREAKPOINTS } from '$utils/page-utils';
+import { stopPageScroll } from '$utils/stop-page-scroll';
 
 import { isPage } from '../utils/is-page';
 
@@ -85,13 +89,14 @@ const animateNavLogo = (debug: boolean = false) => {
 const SELECTORS = {
   banner: '#nav-mobile-banner',
   mobileMenu: '#nav-mobile-menu',
+  navbar: '#navbar',
 };
 
 const getMobileMenu = () => {
   const banner = document.querySelector(SELECTORS.banner) as HTMLElement;
   const mobileMenu = document.querySelector(SELECTORS.mobileMenu) as HTMLElement;
-
-  return { banner, mobileMenu };
+  const navbar = document.querySelector(SELECTORS.navbar) as HTMLElement;
+  return { banner, mobileMenu, navbar };
 };
 
 /**
@@ -131,12 +136,80 @@ const navMenuPosition = () => {
   }, 500);
 
   // Update padding on window resize
-  window.addEventListener('resize', setPadding);
+  handleResize(setPadding, 100, {
+    widthOnly: true,
+    threshold: 10,
+  });
+};
 
-  // Return cleanup function
-  return () => {
-    window.removeEventListener('resize', setPadding);
+const handleMobileMenuOpen = () => {
+  const { mobileMenu } = getMobileMenu();
+  if (!mobileMenu) {
+    console.error('Required mobile menu element not found');
+    return;
+  }
+
+  if (!isDesktop()) {
+    return stopPageScroll(false, mobileMenu);
+  }
+};
+
+const handleMobileNavAppear = () => {
+  const { navbar } = getMobileMenu();
+  if (!navbar) {
+    console.error('Required navbar element not found');
+    return;
+  }
+
+  let lastScrollY = window.scrollY;
+  let isVisible = true;
+
+  // GSAP timeline for nav animations
+  const navTimeline = gsap.timeline({ paused: true });
+  navTimeline
+    .to(navbar, {
+      yPercent: 0,
+      duration: 0.3,
+      ease: 'power3.inOut',
+    })
+    .to(
+      navbar,
+      {
+        yPercent: -100,
+        duration: 0.3,
+        ease: 'power3.inOut',
+      },
+      '>'
+    );
+
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+
+    // Determine scroll direction
+    if (currentScrollY > lastScrollY && isVisible) {
+      // Scrolling down - hide nav
+      navTimeline.play();
+      isVisible = false;
+    } else if (currentScrollY < lastScrollY && !isVisible) {
+      // Scrolling up - show nav
+      navTimeline.reverse();
+      isVisible = true;
+    }
+
+    lastScrollY = currentScrollY;
   };
+
+  // Add scroll listener with throttle
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        handleScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
 };
 
 const initNav = () => {
@@ -144,6 +217,10 @@ const initNav = () => {
   getMobileMenu();
   handleHashLinkNavigation();
   navMenuPosition();
+  handleMobileMenuOpen();
+  if (isMobile()) {
+    handleMobileNavAppear();
+  }
 };
 
 export { animateNavLogo, getMobileMenu, initNav, navMenuPosition };

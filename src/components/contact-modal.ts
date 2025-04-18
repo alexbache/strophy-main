@@ -1,5 +1,6 @@
-import { getMobileMenu } from './nav';
+import { stopPageScroll } from '$utils/stop-page-scroll';
 
+import { getMobileMenu } from './nav';
 const SELECTORS = {
   CONTACT_MODAL: '#contact-modal',
   CONTACT_MODAL_OPEN: '[contact-modal-action="open"]',
@@ -41,12 +42,15 @@ const initContactModal = () => {
 
   contactModalOpenButtons.forEach((button) => {
     button.addEventListener('click', () => {
+      console.log('stopping page scroll - contact modal open');
+      stopPageScroll(true);
       openModal();
     });
   });
 
   contactModalCloseButtons.forEach((button) => {
     button.addEventListener('click', () => {
+      stopPageScroll(false);
       closeModal();
     });
   });
