@@ -4,7 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { handleHashLinkNavigation } from '$utils/handle-hash-link-navigation';
 import { handleResize } from '$utils/handle-resize';
 import { isDesktop } from '$utils/page-utils';
-import { isMobile } from '$utils/page-utils';
 import { BREAKPOINTS } from '$utils/page-utils';
 import { stopPageScroll } from '$utils/stop-page-scroll';
 
