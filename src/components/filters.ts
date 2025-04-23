@@ -177,7 +177,6 @@ function initializeFilterSystem(groupId: string) {
           currentState.currentValue = value;
           currentState.source = source;
         }
-        console.log('setting active filter', activeFilter, source, groupId);
         updateAllTriggerStyles(filterGroup, activeFilter, source, groupId);
         applyFilter(groupId, activeFilter, source);
       } catch (error) {
@@ -243,7 +242,6 @@ function initializeFilterSystem(groupId: string) {
      */
     const init = () => {
       try {
-        // sortWinnerItemPosition();
         initTriggers();
         setInitialFilter();
         const swiperId = document
@@ -255,7 +253,7 @@ function initializeFilterSystem(groupId: string) {
         }
 
         // Initialize the featured entries swiper
-        initSwiper('featured-entries');
+        // initSwiper('featured-entries');
       } catch (error) {
         console.error(`Error in init function: ${error}`);
       }
@@ -269,6 +267,7 @@ function initializeFilterSystem(groupId: string) {
 }
 
 const filters = () => {
+  sortMobileWinnerSwiperItemPosition();
   try {
     // Find all filter groups
     const filterGroups = document.querySelectorAll(SELECTORS.FILTER_GROUP);
@@ -301,7 +300,7 @@ const filters = () => {
 export function setFilterValue(groupId: string, value: string, source: FilterState['source']) {
   const filterState = FILTER_STATE.get(groupId);
   if (!filterState) {
-    console.error(`No filter system initialized for group: ${groupId}`);
+    console.warn(`No filter state for group: ${groupId}`);
     return;
   }
   if (filterState.currentValue !== value) {

@@ -7,6 +7,7 @@ import { initPrizesBgMarquee } from './components/image-marquee';
 import { initNav } from './components/nav';
 import { initPhaseControl } from './components/phase-control';
 import { entryCMSItemPage } from './pages/entries (single)/entry-cms-item-page';
+import { initSwiper } from './pages/entries/image-swipers';
 import { initWinnerItemPosition } from './pages/entries/winners';
 import { initCashPrizes } from './pages/home/sections/cash-prizes';
 import { initCategoryLayout } from './pages/home/sections/categories';
@@ -18,6 +19,7 @@ import { initInspirationImageSlider } from './pages/home/sections/inspiration';
 import { initIntroAnimation } from './pages/home/sections/intro-scene';
 import { initParallaxBackground } from './pages/home/sections/parallax-bg';
 import { initThankYou } from './pages/thankyou/thank-you';
+import { testSwiper } from './test-swiper';
 import { handleExternalLinks } from './utils/handle-external-links';
 import { isPage } from './utils/is-page';
 
@@ -34,9 +36,9 @@ window.Webflow.push(() => {
   }
 
   if (isPage(['/entries'])) {
-    // console.log('entries page');
-    initFilters();
     initWinnerItemPosition();
+    initFilters();
+    initSwiper('featured-entries');
   }
 
   if (isPage('/')) {
@@ -55,6 +57,10 @@ window.Webflow.push(() => {
 
   if (isPage('/thank-you')) {
     initThankYou();
+  }
+
+  if (isPage('/untitled')) {
+    testSwiper();
   }
 });
 

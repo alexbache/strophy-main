@@ -1,5 +1,6 @@
 import 'swiper/css';
 import 'swiper/css/pagination';
+import './image-swipers.css';
 
 import Swiper from 'swiper';
 import { Pagination } from 'swiper/modules';
@@ -10,6 +11,9 @@ import { isMobile } from '$utils/page-utils';
 import { setFilterValue } from '../../components/filters';
 import { SWIPER_SELECTORS } from '../../components/filters';
 import { getCategorySlideIndices } from '../entries/winners-mobile';
+
+// Map to store pagination selectors for each group
+const paginationSelectors = new Map<string, string>();
 
 const handleSlideChange = (groupId: string, activeIndex: number) => {
   const categoryStartIndices = getCategorySlideIndices();
@@ -33,6 +37,8 @@ const handleSlideChange = (groupId: string, activeIndex: number) => {
 
 const initSwiper = (groupId: string) => {
   console.log('initSwiper', groupId);
+  console.log('initSwiper paginationSelectors', paginationSelectors);
+
   let swiper: Swiper | null = null;
 
   const initializeMobileSwiper = () => {
@@ -58,12 +64,23 @@ const initSwiper = (groupId: string) => {
       return;
     }
 
-    const paginationDiv = document.createElement('div');
-    paginationDiv.classList.add('swiper-pagination');
-    swiperTargetElement.appendChild(paginationDiv);
+    // Get existing pagination selector or create new one
+    let bulletsEl = paginationSelectors.get(groupId);
+    console.log('bulletsEl', bulletsEl);
 
-    console.log('swiperTargetElement', swiperTargetElement);
-    console.log('paginationDiv', paginationDiv);
+    if (!bulletsEl) {
+      const uniqueId = 'pagination-' + groupId + '-' + Math.floor(Math.random() * 10000);
+      bulletsEl = '#' + uniqueId;
+      paginationSelectors.set(groupId, bulletsEl);
+      console.log('paginationSelectors', paginationSelectors);
+
+      // Only create the pagination element if it doesn't exist
+      const existingPagination = swiperTargetElement.querySelector('.swiper-pagination');
+      if (!existingPagination) {
+        const bulletsHtml = `<div class="swiper-pagination" id="${uniqueId}"></div>`;
+        swiperTargetElement.innerHTML += bulletsHtml;
+      }
+    }
 
     swiper = new Swiper(swiperSelector, {
       modules: [Pagination],
@@ -73,17 +90,15 @@ const initSwiper = (groupId: string) => {
       loop: false,
       centeredSlides: true,
       initialSlide: 0,
-      // pagination: {
-      //   el: '.swiper-pagination',
-      //   type: 'bullets',
-      //   bulletClass: 'pagination-bullet',
-      //   bulletActiveClass: 'pagination-bullet-active',
-      //   bulletElement: 'div',
-      //   clickable: true,
-      //   dynamicBullets: true,
-      // },
+      pagination: {
+        el: bulletsEl,
+        dynamicBullets: true,
+        clickable: true,
+      },
       on: {
-        slideChange: ({ activeIndex }) => handleSlideChange(groupId, activeIndex),
+        slideChange: ({ activeIndex }) => {
+          handleSlideChange(groupId, activeIndex);
+        },
       },
     });
   };
