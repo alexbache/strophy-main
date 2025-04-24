@@ -11921,6 +11921,7 @@
   };
 
   // src/pages/entries/image-swipers.ts
+  var paginationSelectors = /* @__PURE__ */ new Map();
   var handleSlideChange = (groupId, activeIndex) => {
     const categoryStartIndices = getCategorySlideIndices();
     const activeCategory = Object.entries(categoryStartIndices).sort(([_keyA, valueA], [_keyB, valueB]) => valueB - valueA).find(([_key, value]) => value <= activeIndex);
@@ -11932,6 +11933,7 @@
   };
   var initSwiper = (groupId) => {
     console.log("initSwiper", groupId);
+    console.log("initSwiper paginationSelectors", paginationSelectors);
     let swiper = null;
     const initializeMobileSwiper = () => {
       if (!isMobile()) {
@@ -11951,11 +11953,19 @@
         console.error(`No swiper element found for group: ${groupId}`);
         return;
       }
-      const paginationDiv = document.createElement("div");
-      paginationDiv.classList.add("swiper-pagination");
-      swiperTargetElement.appendChild(paginationDiv);
-      console.log("swiperTargetElement", swiperTargetElement);
-      console.log("paginationDiv", paginationDiv);
+      let bulletsEl = paginationSelectors.get(groupId);
+      console.log("bulletsEl", bulletsEl);
+      if (!bulletsEl) {
+        const uniqueId = "pagination-" + groupId + "-" + Math.floor(Math.random() * 1e4);
+        bulletsEl = "#" + uniqueId;
+        paginationSelectors.set(groupId, bulletsEl);
+        console.log("paginationSelectors", paginationSelectors);
+        const existingPagination = swiperTargetElement.querySelector(".swiper-pagination");
+        if (!existingPagination) {
+          const bulletsHtml = `<div class="swiper-pagination" id="${uniqueId}"></div>`;
+          swiperTargetElement.innerHTML += bulletsHtml;
+        }
+      }
       swiper = new Swiper(swiperSelector, {
         modules: [Pagination],
         slidesPerView: 1,
@@ -11964,17 +11974,15 @@
         loop: false,
         centeredSlides: true,
         initialSlide: 0,
-        // pagination: {
-        //   el: '.swiper-pagination',
-        //   type: 'bullets',
-        //   bulletClass: 'pagination-bullet',
-        //   bulletActiveClass: 'pagination-bullet-active',
-        //   bulletElement: 'div',
-        //   clickable: true,
-        //   dynamicBullets: true,
-        // },
+        pagination: {
+          el: bulletsEl,
+          dynamicBullets: true,
+          clickable: true
+        },
         on: {
-          slideChange: ({ activeIndex }) => handleSlideChange(groupId, activeIndex)
+          slideChange: ({ activeIndex }) => {
+            handleSlideChange(groupId, activeIndex);
+          }
         }
       });
     };
@@ -12118,7 +12126,6 @@
             currentState.currentValue = value;
             currentState.source = source;
           }
-          console.log("setting active filter", activeFilter, source, groupId2);
           updateAllTriggerStyles(filterGroup, activeFilter, source, groupId2);
           applyFilter(groupId2, activeFilter, source);
         } catch (error) {
@@ -12175,7 +12182,6 @@
             initSwiper(swiperId);
             setHasSwiper(true);
           }
-          initSwiper("featured-entries");
         } catch (error) {
           console.error(`Error in init function: ${error}`);
         }
@@ -12186,6 +12192,7 @@
     }
   }
   var filters = () => {
+    sortMobileWinnerSwiperItemPosition();
     try {
       const filterGroups = document.querySelectorAll(SELECTORS4.FILTER_GROUP);
       if (filterGroups.length === 0) {
@@ -12212,7 +12219,7 @@
   function setFilterValue(groupId, value, source) {
     const filterState = FILTER_STATE.get(groupId);
     if (!filterState) {
-      console.error(`No filter system initialized for group: ${groupId}`);
+      console.warn(`No filter state for group: ${groupId}`);
       return;
     }
     if (filterState.currentValue !== value) {
@@ -13402,6 +13409,77 @@
     sectionResize();
   };
 
+  // src/test-swiper.ts
+  var testSwiper = () => {
+    const mainWrapper = document.querySelector(".main-wrapper");
+    if (!mainWrapper) {
+      console.error("Main wrapper not found");
+      return;
+    }
+    mainWrapper.innerHTML = `
+    <div class="swiper" style="height: 400px; width: 400px;">
+      <div class="swiper-wrapper" style="height: 400px; width: 400px;">
+        <div class="swiper-slide" style="height: 400px; width: 400px; background-color: red;">
+          <img src="https://picsum.photos/200/300" alt="Slide 1" />
+          <div class="swiper-slide-title">Slide 1</div>
+        </div>
+        <div class="swiper-slide" style="height: 400px; width: 400px; background-color: red;">
+          <img src="https://picsum.photos/200/300" alt="Slide 2" />
+          <div class="swiper-slide-title">Slide 2</div>
+        </div>
+        <div class="swiper-slide" style="height: 100px; width: 100px; background-color: red;">
+          <img src="https://picsum.photos/200/300" alt="Slide 3" />
+          <div class="swiper-slide-title">Slide 3</div>
+        </div>
+        <div class="swiper-slide" style="height: 100px; width: 100px; background-color: red;">
+          <img src="https://picsum.photos/200/300" alt="Slide 4" />
+          <div class="swiper-slide-title">Slide 4</div>
+        </div>
+        <div class="swiper-slide" style="height: 100px; width: 100px; background-color: red;">
+          <img src="https://picsum.photos/200/300" alt="Slide 5" />
+          <div class="swiper-slide-title">Slide 5</div>
+        </div>
+        <div class="swiper-slide" style="height: 100px; width: 100px; background-color: red;">
+          <img src="https://picsum.photos/200/300" alt="Slide 6" />
+          <div class="swiper-slide-title">Slide 6</div>
+        </div>
+        <div class="swiper-slide" style="height: 100px; width: 100px; background-color: red;">
+          <img src="https://picsum.photos/200/300" alt="Slide 7" />
+          <div class="swiper-slide-title">Slide 7</div>
+        </div>
+        <div class="swiper-slide" style="height: 100px; width: 100px; background-color: red;">
+          <img src="https://picsum.photos/200/300" alt="Slide 8" />
+          <div class="swiper-slide-title">Slide 8</div>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  `;
+    const slides = document.querySelectorAll(".swiper-slide");
+    slides.forEach((slide2) => {
+      slide2.style.height = "50px";
+      slide2.style.width = "50px";
+    });
+    console.log("init test swiper");
+    const swiper = new Swiper(".swiper", {
+      // Optional parameters
+      direction: "horizontal",
+      modules: [Pagination],
+      loop: true,
+      slidesPerView: 1,
+      centeredSlides: true,
+      // spaceBetween: 10,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+        dynamicBullets: true
+      }
+      // createElements: true,
+    });
+    console.log(swiper.slides.length);
+    console.log("swiper", swiper);
+  };
+
   // src/utils/handle-external-links.ts
   var handleExternalLinks = () => {
     const links = document.querySelectorAll("a");
@@ -13427,8 +13505,9 @@
       entryCMSItemPage();
     }
     if (isPage(["/entries"])) {
-      initFilters();
       initWinnerItemPosition();
+      initFilters();
+      initSwiper("featured-entries");
     }
     if (isPage("/")) {
       initHeroMarquee();
@@ -13445,6 +13524,9 @@
     }
     if (isPage("/thank-you")) {
       initThankYou();
+    }
+    if (isPage("/untitled")) {
+      testSwiper();
     }
   });
   window.Webflow.push(async () => {
