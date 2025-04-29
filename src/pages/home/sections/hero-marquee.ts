@@ -23,9 +23,9 @@ const heroImageMarquee = () => {
 
     marqueeRows.forEach((row, index) => {
       try {
-        console.log(`Cloning row ${index + 1}`);
+        // console.log(`Cloning row ${index + 1}`);
         const clone = row.cloneNode(true);
-        console.log(`Cloned row ${index + 1}`, clone);
+        // console.log(`Cloned row ${index + 1}`, clone);
         if (!row.parentNode) {
           console.error(`Parent node not found for row ${index + 1}`);
           return;
@@ -58,7 +58,7 @@ const heroImageMarquee = () => {
       {
         xPercent: -50,
         ease: 'none',
-        duration: 40,
+        duration: 120,
         repeat: -1,
       }
     );
@@ -74,7 +74,7 @@ const heroImageMarquee = () => {
       {
         xPercent: 0,
         ease: 'none',
-        duration: 40,
+        duration: 120,
         repeat: -1,
       }
     );
@@ -149,7 +149,7 @@ const LogoMarquee = () => {
               gsap.to(row, {
                 xPercent: -100,
                 ease: 'none',
-                duration: 20,
+                duration: 90,
                 repeat: -1,
               });
             });

@@ -73,11 +73,6 @@
       body.style.top = `-${scrollY}px`;
       body.style.width = "100%";
       html.style.scrollBehavior = "auto";
-      console.log("stopping page scroll", {
-        scrollY,
-        body,
-        html
-      });
     } else {
       const scrollY = body.style.top;
       body.style.position = "";
@@ -6923,7 +6918,7 @@
           trigger: headingWrap,
           start: "top 70%",
           end: "bottom 20%",
-          // scrub: 1,
+          scrub: 1,
           toggleActions: "play none none none",
           id: "introAnimation"
           // Add unique identifier
@@ -6991,9 +6986,7 @@
           event2.preventDefault();
           setEndState();
           const href = button.getAttribute("data-href");
-          console.log("Button clicked:", href);
           if (!href) {
-            console.log("No href found on button");
             return;
           }
           if (window.location.pathname !== "/") {
@@ -12245,9 +12238,7 @@
       }
       marqueeRows.forEach((row, index) => {
         try {
-          console.log(`Cloning row ${index + 1}`);
           const clone = row.cloneNode(true);
-          console.log(`Cloned row ${index + 1}`, clone);
           if (!row.parentNode) {
             console.error(`Parent node not found for row ${index + 1}`);
             return;
@@ -12275,7 +12266,7 @@
         {
           xPercent: -50,
           ease: "none",
-          duration: 40,
+          duration: 120,
           repeat: -1
         }
       );
@@ -12289,7 +12280,7 @@
         {
           xPercent: 0,
           ease: "none",
-          duration: 40,
+          duration: 120,
           repeat: -1
         }
       );
@@ -12349,7 +12340,7 @@
                 gsapWithCSS.to(row, {
                   xPercent: -100,
                   ease: "none",
-                  duration: 20,
+                  duration: 90,
                   repeat: -1
                 });
               });
@@ -12390,29 +12381,39 @@
         console.error("No marquee rows found.");
         throw new Error("Marquee rows not found");
       }
-      const updateRowAnimation = (row, image) => {
+      const updateRowAnimation = (row, image, imageOffset) => {
         if (!image.complete || image.naturalWidth === 0) {
-          image.addEventListener("load", () => updateRowAnimation(row, image));
+          image.addEventListener("load", () => updateRowAnimation(row, image, imageOffset));
           return;
         }
         const imageWidth = image.clientWidth;
         if (imageWidth === 0) {
           console.warn("Image width is 0, delaying animation");
-          setTimeout(() => updateRowAnimation(row, image), 100);
+          setTimeout(() => updateRowAnimation(row, image, imageOffset), 100);
           return;
         }
+        const initialX = imageOffset ? -imageWidth * 0.65 : 0;
         gsapWithCSS.killTweensOf(row);
         gsapWithCSS.to(row, {
-          x: -imageWidth,
-          duration: 20,
+          x: -imageWidth + initialX,
+          duration: 120,
           ease: "none",
           repeat: -1,
           modifiers: {
             x: gsapWithCSS.utils.unitize((x) => parseFloat(x) % imageWidth)
           }
         });
+        if (imageOffset) {
+          gsapWithCSS.set(row, { x: initialX });
+        }
       };
       marqueeRows.forEach((row) => {
+        let imageOffset = false;
+        const imageOffsetAttr = row.getAttribute("image-offset");
+        if (imageOffsetAttr) {
+          imageOffset = true;
+        }
+        console.log("imageOffset", imageOffset);
         const image = row.querySelector("img");
         if (!image) {
           console.error("No image found in marquee row");
@@ -12420,8 +12421,8 @@
         }
         const clone = image.cloneNode(true);
         row.appendChild(clone);
-        updateRowAnimation(row, image);
-        handleResize(() => updateRowAnimation(row, image), 100, {
+        updateRowAnimation(row, image, imageOffset);
+        handleResize(() => updateRowAnimation(row, image, imageOffset), 100, {
           widthOnly: true,
           threshold: 10
         });
@@ -12545,7 +12546,7 @@
     );
     gsapWithCSS.to(row, {
       x: -itemWidth,
-      duration: 8,
+      duration: 45,
       // Faster speed
       ease: "none",
       repeat: -1,
@@ -12791,8 +12792,55 @@
       console.error("Error initializing phase control:", error);
     }
   };
+  var getCurrentPhase = () => {
+    const phaseControl2 = document.querySelector(PHASE_DATA_CONTROL.controlItem);
+    const showAllPhases = !!phaseControl2?.querySelector(PHASE_DATA_CONTROL.showAll);
+    const activePhase = phaseControl2?.querySelector(`[${PHASE_DATA_CONTROL.activePhase}]`)?.getAttribute(PHASE_DATA_CONTROL.activePhase) ?? null;
+    return { showAllPhases, activePhase };
+  };
   var initPhaseControl = () => {
     phaseControl();
+  };
+
+  // src/integrations/klaviyo-forms/klaviyo-script.ts
+  function loadKlaviyoScript(apiKey) {
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.async = true;
+    script.src = `https://static.klaviyo.com/onsite/js/${apiKey}/klaviyo.js`;
+    document.head.appendChild(script);
+  }
+  var initKlaviyoScript = () => {
+    loadKlaviyoScript("HzKz7A");
+  };
+
+  // src/integrations/klaviyo-forms/klaviyo-styling.ts
+  var initKlaviyoStyling = () => {
+    const klaviyoForms = document.querySelectorAll('[data-form="klaviyo"]');
+    const mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        const formRows = mutation.target.querySelectorAll(
+          '[data-testid="form-row"]'
+        );
+        formRows.forEach((formRow) => {
+          if (formRow.children.length === 2) {
+            formRow.classList.add("stacked-form");
+          }
+        });
+        const formLinks = mutation.target.querySelectorAll(
+          "a"
+        );
+        formLinks.forEach((formLink) => {
+          formLink.setAttribute("target", "_blank");
+        });
+      });
+    });
+    klaviyoForms.forEach((form) => {
+      mutationObserver.observe(form, {
+        childList: true,
+        subtree: true
+      });
+    });
   };
 
   // src/pages/entries (single)/entry-cms-item-page.ts
@@ -12865,6 +12913,78 @@
       nextButton.href = nextPath;
       addPreloadLink(nextPath);
     }
+  };
+
+  // src/pages/entries/featured-entries-limit.ts
+  var featuredEntriesList = document.querySelector("#featured-entries-list");
+  var featuredEntriesLimit = 3;
+  var renderFeaturedEntries = () => {
+    const featuredEntries = Array.from(featuredEntriesList.children);
+    featuredEntries.forEach((entry) => {
+      entry.style.display = "none";
+    });
+    const indices = /* @__PURE__ */ new Set();
+    while (indices.size < featuredEntriesLimit) {
+      indices.add(Math.floor(Math.random() * featuredEntries.length));
+    }
+    Array.from(indices).forEach((index) => {
+      featuredEntries[index].style.display = "block";
+    });
+  };
+  var initFeaturedEntriesLimit = () => {
+    renderFeaturedEntries();
+  };
+
+  // src/pages/entries/section-renderer.ts
+  var PAGE_SECTIONS = {
+    WINNERS: "#section-winners",
+    FEATURED_ENTRIES: "#section-featured-entries",
+    ALL_ENTRIES: "#section-all-entries"
+  };
+  var toggleSection = (section, show) => {
+    section.style.display = show ? "block" : "none";
+  };
+  var getSection = (section) => {
+    return document.querySelector(section);
+  };
+  var renderEntries = () => {
+    const { showAllPhases, activePhase } = getCurrentPhase();
+    const winnersSection = getSection(PAGE_SECTIONS.WINNERS);
+    const featuredEntriesSection = getSection(PAGE_SECTIONS.FEATURED_ENTRIES);
+    const allEntriesSection = getSection(PAGE_SECTIONS.ALL_ENTRIES);
+    if (showAllPhases) {
+      toggleSection(winnersSection, true);
+      toggleSection(featuredEntriesSection, true);
+      toggleSection(allEntriesSection, true);
+      return;
+    }
+    if (activePhase === "phase-1" /* PHASE_1 */) {
+      toggleSection(winnersSection, false);
+      toggleSection(featuredEntriesSection, false);
+      toggleSection(allEntriesSection, false);
+      return;
+    }
+    if (activePhase === "phase-2" /* PHASE_2 */) {
+      toggleSection(winnersSection, false);
+      toggleSection(featuredEntriesSection, false);
+      toggleSection(allEntriesSection, false);
+      return;
+    }
+    if (activePhase === "phase-3" /* PHASE_3 */) {
+      toggleSection(winnersSection, false);
+      toggleSection(featuredEntriesSection, true);
+      toggleSection(allEntriesSection, true);
+      return;
+    }
+    if (activePhase === "phase-4" /* PHASE_4 */) {
+      toggleSection(winnersSection, true);
+      toggleSection(featuredEntriesSection, false);
+      toggleSection(allEntriesSection, true);
+      return;
+    }
+  };
+  var initSectionRenderer = () => {
+    renderEntries();
   };
 
   // src/pages/entries/winners.ts
@@ -13242,7 +13362,7 @@
       gsapWithCSS.to(marqueeInnerFrame, {
         x: "-50%",
         // Move left by 50% since we duplicated content
-        duration: 30,
+        duration: 150,
         ease: "none",
         repeat: -1
         // Infinite loop
@@ -13409,77 +13529,6 @@
     sectionResize();
   };
 
-  // src/test-swiper.ts
-  var testSwiper = () => {
-    const mainWrapper = document.querySelector(".main-wrapper");
-    if (!mainWrapper) {
-      console.error("Main wrapper not found");
-      return;
-    }
-    mainWrapper.innerHTML = `
-    <div class="swiper" style="height: 400px; width: 400px;">
-      <div class="swiper-wrapper" style="height: 400px; width: 400px;">
-        <div class="swiper-slide" style="height: 400px; width: 400px; background-color: red;">
-          <img src="https://picsum.photos/200/300" alt="Slide 1" />
-          <div class="swiper-slide-title">Slide 1</div>
-        </div>
-        <div class="swiper-slide" style="height: 400px; width: 400px; background-color: red;">
-          <img src="https://picsum.photos/200/300" alt="Slide 2" />
-          <div class="swiper-slide-title">Slide 2</div>
-        </div>
-        <div class="swiper-slide" style="height: 100px; width: 100px; background-color: red;">
-          <img src="https://picsum.photos/200/300" alt="Slide 3" />
-          <div class="swiper-slide-title">Slide 3</div>
-        </div>
-        <div class="swiper-slide" style="height: 100px; width: 100px; background-color: red;">
-          <img src="https://picsum.photos/200/300" alt="Slide 4" />
-          <div class="swiper-slide-title">Slide 4</div>
-        </div>
-        <div class="swiper-slide" style="height: 100px; width: 100px; background-color: red;">
-          <img src="https://picsum.photos/200/300" alt="Slide 5" />
-          <div class="swiper-slide-title">Slide 5</div>
-        </div>
-        <div class="swiper-slide" style="height: 100px; width: 100px; background-color: red;">
-          <img src="https://picsum.photos/200/300" alt="Slide 6" />
-          <div class="swiper-slide-title">Slide 6</div>
-        </div>
-        <div class="swiper-slide" style="height: 100px; width: 100px; background-color: red;">
-          <img src="https://picsum.photos/200/300" alt="Slide 7" />
-          <div class="swiper-slide-title">Slide 7</div>
-        </div>
-        <div class="swiper-slide" style="height: 100px; width: 100px; background-color: red;">
-          <img src="https://picsum.photos/200/300" alt="Slide 8" />
-          <div class="swiper-slide-title">Slide 8</div>
-        </div>
-      </div>
-      <div class="swiper-pagination"></div>
-    </div>
-  `;
-    const slides = document.querySelectorAll(".swiper-slide");
-    slides.forEach((slide2) => {
-      slide2.style.height = "50px";
-      slide2.style.width = "50px";
-    });
-    console.log("init test swiper");
-    const swiper = new Swiper(".swiper", {
-      // Optional parameters
-      direction: "horizontal",
-      modules: [Pagination],
-      loop: true,
-      slidesPerView: 1,
-      centeredSlides: true,
-      // spaceBetween: 10,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-        dynamicBullets: true
-      }
-      // createElements: true,
-    });
-    console.log(swiper.slides.length);
-    console.log("swiper", swiper);
-  };
-
   // src/utils/handle-external-links.ts
   var handleExternalLinks = () => {
     const links = document.querySelectorAll("a");
@@ -13495,6 +13544,8 @@
   // src/index.ts
   window.Webflow ||= [];
   window.Webflow.push(() => {
+    initKlaviyoScript();
+    initKlaviyoStyling();
     initNav();
     initPhaseControl();
     initContactModal();
@@ -13505,6 +13556,8 @@
       entryCMSItemPage();
     }
     if (isPage(["/entries"])) {
+      initSectionRenderer();
+      initFeaturedEntriesLimit();
       initWinnerItemPosition();
       initFilters();
       initSwiper("featured-entries");
@@ -13524,9 +13577,6 @@
     }
     if (isPage("/thank-you")) {
       initThankYou();
-    }
-    if (isPage("/untitled")) {
-      testSwiper();
     }
   });
   window.Webflow.push(async () => {

@@ -35,11 +35,11 @@ const stopPageScroll = (shouldStop: boolean, menuElement?: HTMLElement) => {
     body.style.top = `-${scrollY}px`;
     body.style.width = '100%';
     html.style.scrollBehavior = 'auto';
-    console.log('stopping page scroll', {
-      scrollY,
-      body,
-      html,
-    });
+    // console.log('stopping page scroll', {
+    //   scrollY,
+    //   body,
+    //   html,
+    // });
   } else {
     // Re-enable scrolling and restore position
     const scrollY = body.style.top;

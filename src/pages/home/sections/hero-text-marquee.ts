@@ -13,7 +13,7 @@ const heroTextMarquee = () => {
     // Create GSAP animation
     gsap.to(marqueeInnerFrame, {
       x: '-50%', // Move left by 50% since we duplicated content
-      duration: 30,
+      duration: 150,
       ease: 'none',
       repeat: -1, // Infinite loop
     });
