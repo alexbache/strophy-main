@@ -195,7 +195,7 @@ const startMarqueeAnimation = (row: Element, itemWidth: number): void => {
   // Start the infinite marquee animation immediately
   gsap.to(row, {
     x: -itemWidth,
-    duration: 8, // Faster speed
+    duration: 45, // Faster speed
     ease: 'none',
     repeat: -1,
     repeatDelay: 0,
@@ -590,8 +590,19 @@ const phaseControl = (): (() => void) | void => {
   }
 };
 
+const getCurrentPhase = () => {
+  const phaseControl = document.querySelector(PHASE_DATA_CONTROL.controlItem);
+  const showAllPhases = !!phaseControl?.querySelector(PHASE_DATA_CONTROL.showAll);
+  const activePhase =
+    phaseControl
+      ?.querySelector(`[${PHASE_DATA_CONTROL.activePhase}]`)
+      ?.getAttribute(PHASE_DATA_CONTROL.activePhase) ?? null;
+
+  return { showAllPhases, activePhase };
+};
+
 const initPhaseControl = () => {
   phaseControl();
 };
 
-export { initPhaseControl };
+export { getCurrentPhase, initPhaseControl };

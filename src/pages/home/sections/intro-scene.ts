@@ -55,7 +55,7 @@ const introAnimation = () => {
         trigger: headingWrap,
         start: 'top 70%',
         end: 'bottom 20%',
-        // scrub: 1,
+        scrub: 1,
         toggleActions: 'play none none none',
         id: 'introAnimation', // Add unique identifier
       },

@@ -20,10 +20,10 @@ const handleHashLinkNavigation = () => {
         event.preventDefault();
         setEndState();
         const href = button.getAttribute('data-href');
-        console.log('Button clicked:', href);
+        // console.log('Button clicked:', href);
 
         if (!href) {
-          console.log('No href found on button');
+          // console.log('No href found on button');
           return;
         }
 
