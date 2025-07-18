@@ -6889,12 +6889,12 @@
     currentHeight: 0
   };
   var introAnimation = () => {
-    const SELECTORS10 = {
+    const SELECTORS11 = {
       headingWrap: "#intro-heading-wrap",
       heading: "#intro-heading"
     };
-    const headingWrap = document.querySelector(SELECTORS10.headingWrap);
-    const heading = document.querySelector(SELECTORS10.heading);
+    const headingWrap = document.querySelector(SELECTORS11.headingWrap);
+    const heading = document.querySelector(SELECTORS11.heading);
     const headingText = heading?.textContent || "";
     if (!headingWrap || !heading) {
       console.error("Required intro elements not found");
@@ -7061,10 +7061,10 @@
 
   // src/components/nav.ts
   var animateNavLogo = (debug = false) => {
-    const SELECTORS10 = {
+    const SELECTORS11 = {
       logo: ".navbar_logo"
     };
-    const logo = document.querySelector(SELECTORS10.logo);
+    const logo = document.querySelector(SELECTORS11.logo);
     if (!logo) {
       console.error("Required logo element not found");
       return;
@@ -12225,7 +12225,7 @@
 
   // src/pages/home/sections/hero-marquee.ts
   var heroImageMarquee = () => {
-    const SELECTORS10 = {
+    const SELECTORS11 = {
       marqueeLeft: ".intro-marquee.marquee-left",
       marqueeRight: ".intro-marquee.marquee-right"
     };
@@ -12251,8 +12251,8 @@
     } catch (err) {
       console.error("Error in heroImageMarquee:", err);
     }
-    const leftMarquees = document.querySelectorAll(SELECTORS10.marqueeLeft);
-    const rightMarquees = document.querySelectorAll(SELECTORS10.marqueeRight);
+    const leftMarquees = document.querySelectorAll(SELECTORS11.marqueeLeft);
+    const rightMarquees = document.querySelectorAll(SELECTORS11.marqueeRight);
     if (!leftMarquees.length || !rightMarquees.length) {
       console.error("Marquee elements not found");
       return;
@@ -12289,12 +12289,12 @@
   var LogoMarquee = () => {
     const initMarquee = () => {
       try {
-        const SELECTORS10 = {
+        const SELECTORS11 = {
           marqueeRowInner: '[logo-marquee-element="inner-row"]',
           marqueeRow: '[logo-marquee-element="outer-row"]'
         };
-        const marqueeRows = document.querySelectorAll(SELECTORS10.marqueeRow);
-        const marqueeRowInners = document.querySelectorAll(SELECTORS10.marqueeRowInner);
+        const marqueeRows = document.querySelectorAll(SELECTORS11.marqueeRow);
+        const marqueeRowInners = document.querySelectorAll(SELECTORS11.marqueeRowInner);
         if (!isTablet()) {
           marqueeRows.forEach((marqueeRow) => {
             const clonedElement = marqueeRow.querySelector('[data-clone="true"]');
@@ -12305,7 +12305,7 @@
                 console.error("Error removing cloned element:", err);
               }
             }
-            gsapWithCSS.killTweensOf(`${SELECTORS10.marqueeRow} > *`);
+            gsapWithCSS.killTweensOf(`${SELECTORS11.marqueeRow} > *`);
             try {
               Array.from(marqueeRow.children).forEach((row) => {
                 gsapWithCSS.set(row, {
@@ -12846,22 +12846,22 @@
   // src/pages/entries (single)/entry-cms-item-page.ts
   var orderWinnerCMSList = () => {
     if (!isPage(["/winners/*"])) return;
-    const SELECTORS10 = {
+    const SELECTORS11 = {
       CMS_LIST: '[custom_action="cms_list"]',
       CMS_CATEGORY: "cms-category",
       CMS_POSITION: "cms-position"
     };
-    const cmsList = document.querySelector(SELECTORS10.CMS_LIST);
+    const cmsList = document.querySelector(SELECTORS11.CMS_LIST);
     if (!cmsList) {
       console.error("CMS list not found");
       return;
     }
     const items = Array.from(cmsList.children);
     const sortedItems = items.sort((a, b) => {
-      const categoryA = a.getAttribute(SELECTORS10.CMS_CATEGORY) || "";
-      const categoryB = b.getAttribute(SELECTORS10.CMS_CATEGORY) || "";
-      const positionA = parseInt(a.getAttribute(SELECTORS10.CMS_POSITION) || "0", 10);
-      const positionB = parseInt(b.getAttribute(SELECTORS10.CMS_POSITION) || "0", 10);
+      const categoryA = a.getAttribute(SELECTORS11.CMS_CATEGORY) || "";
+      const categoryB = b.getAttribute(SELECTORS11.CMS_CATEGORY) || "";
+      const positionA = parseInt(a.getAttribute(SELECTORS11.CMS_POSITION) || "0", 10);
+      const positionB = parseInt(b.getAttribute(SELECTORS11.CMS_POSITION) || "0", 10);
       if (categoryA !== categoryB) {
         return categoryA.localeCompare(categoryB);
       }
@@ -13017,7 +13017,7 @@
 
   // src/pages/home/sections/cash-prizes.ts
   var cashPrizes = () => {
-    const SELECTORS10 = {
+    const SELECTORS11 = {
       grandTotal: "#prizes-grand-total",
       podium1: "#podium-1",
       podium2: "#podium-2",
@@ -13026,14 +13026,14 @@
       podiumAmount: '[podium-element="amount"]',
       podiumContainer: "#podium-container"
     };
-    const grandTotalElement = document.querySelector(SELECTORS10.grandTotal);
-    const podium1Inner = document.querySelector(`${SELECTORS10.podium1} ${SELECTORS10.podiumInner}`);
-    const podium2Inner = document.querySelector(`${SELECTORS10.podium2} ${SELECTORS10.podiumInner}`);
-    const podium3Inner = document.querySelector(`${SELECTORS10.podium3} ${SELECTORS10.podiumInner}`);
-    const podium1Amount = document.querySelector(`${SELECTORS10.podium1} ${SELECTORS10.podiumAmount}`);
-    const podium2Amount = document.querySelector(`${SELECTORS10.podium2} ${SELECTORS10.podiumAmount}`);
-    const podium3Amount = document.querySelector(`${SELECTORS10.podium3} ${SELECTORS10.podiumAmount}`);
-    const podiumContainer = document.querySelector(SELECTORS10.podiumContainer);
+    const grandTotalElement = document.querySelector(SELECTORS11.grandTotal);
+    const podium1Inner = document.querySelector(`${SELECTORS11.podium1} ${SELECTORS11.podiumInner}`);
+    const podium2Inner = document.querySelector(`${SELECTORS11.podium2} ${SELECTORS11.podiumInner}`);
+    const podium3Inner = document.querySelector(`${SELECTORS11.podium3} ${SELECTORS11.podiumInner}`);
+    const podium1Amount = document.querySelector(`${SELECTORS11.podium1} ${SELECTORS11.podiumAmount}`);
+    const podium2Amount = document.querySelector(`${SELECTORS11.podium2} ${SELECTORS11.podiumAmount}`);
+    const podium3Amount = document.querySelector(`${SELECTORS11.podium3} ${SELECTORS11.podiumAmount}`);
+    const podiumContainer = document.querySelector(SELECTORS11.podiumContainer);
     if (!podium1Inner || !podium2Inner || !podium3Inner || !podium1Amount || !podium2Amount || !podium3Amount || !podiumContainer) {
       console.error("One or more podium elements not found");
       return;
@@ -13218,8 +13218,117 @@
     categoryLayout();
   };
 
-  // src/pages/home/sections/competition-dates.ts
+  // src/pages/home/sections/categories-animation.ts
   var SELECTORS7 = {
+    categoryItemList: "#categories-list"
+  };
+  var initCategoriesAnimation = () => {
+    const categoryItemList = document.querySelector(SELECTORS7.categoryItemList);
+    if (!categoryItemList) {
+      console.error("No category item list found");
+      return;
+    }
+    const categoryItems = categoryItemList.children;
+    if (categoryItems.length === 0) {
+      console.error("No category items found");
+      return;
+    }
+    const categoryTriggers = [];
+    Array.from(categoryItems).forEach((item) => {
+      const trigger = item.querySelector(".cat-showcase_title-wrap");
+      if (trigger) {
+        categoryTriggers.push(trigger);
+      }
+    });
+    if (categoryTriggers.length === 0) {
+      console.error("No category triggers found");
+      return;
+    }
+    let activeTrigger = null;
+    let activelyHoveredElement = null;
+    let lastHoveredElement = null;
+    let isProgrammaticEvent = false;
+    let fallbackTimer = null;
+    const dispatchMouseover = (trigger) => {
+      isProgrammaticEvent = true;
+      trigger.dispatchEvent(
+        new MouseEvent("mouseover", {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        })
+      );
+      activeTrigger = trigger;
+      isProgrammaticEvent = false;
+    };
+    const dispatchMouseout = (trigger) => {
+      isProgrammaticEvent = true;
+      trigger.dispatchEvent(
+        new MouseEvent("mouseout", {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        })
+      );
+      isProgrammaticEvent = false;
+    };
+    const startFallbackTimer = () => {
+      if (fallbackTimer) {
+        clearTimeout(fallbackTimer);
+      }
+      fallbackTimer = setTimeout(() => {
+        if (!activelyHoveredElement && lastHoveredElement) {
+          const firstTrigger2 = categoryTriggers[0];
+          const lastTrigger = categoryTriggers[categoryTriggers.length - 1];
+          let fallbackTrigger;
+          if (lastHoveredElement === lastTrigger) {
+            fallbackTrigger = lastTrigger;
+          } else {
+            fallbackTrigger = firstTrigger2;
+          }
+          if (activeTrigger) {
+            dispatchMouseout(activeTrigger);
+          }
+          dispatchMouseover(fallbackTrigger);
+        }
+      }, 5);
+    };
+    categoryTriggers.forEach((trigger) => {
+      trigger.addEventListener("mouseover", () => {
+        if (isProgrammaticEvent) {
+          return;
+        }
+        activelyHoveredElement = trigger;
+        lastHoveredElement = trigger;
+        if (fallbackTimer) {
+          clearTimeout(fallbackTimer);
+          fallbackTimer = null;
+        }
+        if (activeTrigger !== trigger) {
+          if (activeTrigger) {
+            dispatchMouseout(activeTrigger);
+          }
+          dispatchMouseover(trigger);
+        }
+      });
+      trigger.addEventListener("mouseout", () => {
+        if (isProgrammaticEvent) {
+          return;
+        }
+        activelyHoveredElement = null;
+        startFallbackTimer();
+      });
+    });
+    const firstTrigger = categoryTriggers[0];
+    if (firstTrigger) {
+      dispatchMouseover(firstTrigger);
+      lastHoveredElement = firstTrigger;
+    }
+  };
+  var categories_animation_default = initCategoriesAnimation;
+
+  // src/pages/home/sections/competition-dates.ts
+  var SELECTORS8 = {
     image: '[date-element="image"]',
     info: '[date-element="information"]',
     stickyImage: ".date_sticky-image"
@@ -13231,7 +13340,7 @@
   };
   var updateStickyImageTop = () => {
     try {
-      const stickyImages = document.querySelectorAll(SELECTORS7.stickyImage);
+      const stickyImages = document.querySelectorAll(SELECTORS8.stickyImage);
       if (!stickyImages.length) {
         console.error("No sticky images found to update positions");
         return;
@@ -13301,8 +13410,8 @@
       }
       const reinitialize = () => {
         ScrollTrigger2.getById("competitionDatesAnimation0")?.kill();
-        const images = document.querySelectorAll(SELECTORS7.image);
-        const info = document.querySelectorAll(SELECTORS7.info);
+        const images = document.querySelectorAll(SELECTORS8.image);
+        const info = document.querySelectorAll(SELECTORS8.info);
         if (!images.length || !info.length) {
           console.error("Required competition dates elements not found during reinitialization");
           return;
@@ -13335,13 +13444,13 @@
   };
 
   // src/pages/home/sections/email-signup-section.ts
-  var SELECTORS8 = {
+  var SELECTORS9 = {
     section: "#layout-email-signup"
   };
   var emailSignupSection = () => {
-    const section = document.querySelector(SELECTORS8.section);
+    const section = document.querySelector(SELECTORS9.section);
     if (!section) {
-      console.error(`No email signup section found, set using: ${SELECTORS8.section}`);
+      console.error(`No email signup section found, set using: ${SELECTORS9.section}`);
       return;
     }
     const { innerHeight } = getViewportHeightMeasurements();
@@ -13374,7 +13483,7 @@
   };
 
   // src/pages/home/sections/inspiration.ts
-  var SELECTORS9 = {
+  var SELECTORS10 = {
     imageRowList: "#inspiration-image-row-list",
     header: "#inspiration-header",
     imageRow: '[slider-element="image-row"]',
@@ -13382,8 +13491,8 @@
     prevButton: '[slider-element="btn-prev"]'
   };
   var inspirationImageRowPadding = () => {
-    const imageRowList = document.querySelector(SELECTORS9.imageRowList);
-    const header = document.querySelector(SELECTORS9.header);
+    const imageRowList = document.querySelector(SELECTORS10.imageRowList);
+    const header = document.querySelector(SELECTORS10.header);
     const firstHeaderChild = header?.firstElementChild;
     if (!imageRowList?.firstElementChild || !firstHeaderChild) {
       console.error("Required inspiration elements not found");
@@ -13398,10 +13507,10 @@
     return () => window.removeEventListener("resize", updatePadding);
   };
   var inspirationImageSlider = () => {
-    const imageSlider = document.querySelector(SELECTORS9.imageRow);
-    const nextButton = document.querySelector(SELECTORS9.nextButton);
-    const prevButton = document.querySelector(SELECTORS9.prevButton);
-    const header = document.querySelector(SELECTORS9.header);
+    const imageSlider = document.querySelector(SELECTORS10.imageRow);
+    const nextButton = document.querySelector(SELECTORS10.nextButton);
+    const prevButton = document.querySelector(SELECTORS10.prevButton);
+    const header = document.querySelector(SELECTORS10.header);
     if (!imageSlider || !nextButton || !prevButton) {
       throw new Error("Required slider elements not found");
     }
@@ -13472,12 +13581,12 @@
   // src/pages/home/sections/parallax-bg.ts
   gsapWithCSS.registerPlugin(ScrollTrigger2);
   var parallaxBackground = () => {
-    const SELECTORS10 = {
+    const SELECTORS11 = {
       BG_ELEMENT: '[custom-action="parallax-bg"]'
     };
-    const parallaxBg = document.querySelectorAll(SELECTORS10.BG_ELEMENT);
+    const parallaxBg = document.querySelectorAll(SELECTORS11.BG_ELEMENT);
     if (parallaxBg.length === 0) {
-      console.error(`No parallax bg elements found, set using: ${SELECTORS10.BG_ELEMENT}`);
+      console.error(`No parallax bg elements found, set using: ${SELECTORS11.BG_ELEMENT}`);
       return;
     }
     Array.from(parallaxBg).forEach((bg, index) => {
@@ -13574,6 +13683,7 @@
       initCategoryLayout();
       initInspirationImageSlider();
       initFilters();
+      categories_animation_default();
     }
     if (isPage("/thank-you")) {
       initThankYou();

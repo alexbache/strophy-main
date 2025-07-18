@@ -15,6 +15,7 @@ import { initSectionRenderer } from './pages/entries/section-renderer';
 import { initWinnerItemPosition } from './pages/entries/winners';
 import { initCashPrizes } from './pages/home/sections/cash-prizes';
 import { initCategoryLayout } from './pages/home/sections/categories';
+import initCategoriesAnimation from './pages/home/sections/categories-animation';
 import { initCompetitionDates } from './pages/home/sections/competition-dates';
 import { initEmailSignupSection } from './pages/home/sections/email-signup-section';
 import { initHeroMarquee } from './pages/home/sections/hero-marquee';
@@ -60,6 +61,7 @@ window.Webflow.push(() => {
     initCategoryLayout();
     initInspirationImageSlider();
     initFilters();
+    initCategoriesAnimation();
   }
 
   if (isPage('/thank-you')) {
