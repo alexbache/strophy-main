@@ -6,7 +6,6 @@ import { initFooter } from './components/footer';
 import { initPrizesBgMarquee } from './components/image-marquee';
 import { initNav } from './components/nav';
 import { initPhaseControl } from './components/phase-control';
-import { initKlaviyoScript } from './integrations/klaviyo-forms/klaviyo-script';
 import { initKlaviyoStyling } from './integrations/klaviyo-forms/klaviyo-styling';
 import { entryCMSItemPage } from './pages/entries (single)/entry-cms-item-page';
 import { initFeaturedEntriesLimit } from './pages/entries/featured-entries-limit';
@@ -29,7 +28,6 @@ import { isPage } from './utils/is-page';
 
 window.Webflow ||= [];
 window.Webflow.push(() => {
-  initKlaviyoScript();
   initKlaviyoStyling();
   initNav();
   initPhaseControl();
