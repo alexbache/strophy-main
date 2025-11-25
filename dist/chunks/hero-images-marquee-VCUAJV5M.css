@@ -1,0 +1,1 @@
+.intro-marquee{display:flex;width:max-content}.intro-marquee.marquee-left{animation:scroll-left 120s linear infinite}.intro-marquee.marquee-right{animation:scroll-right 120s linear infinite}@keyframes scroll-left{0%{transform:translateZ(0)}to{transform:translate3d(-50%,0,0)}}@keyframes scroll-right{0%{transform:translate3d(-50%,0,0)}to{transform:translateZ(0)}}
