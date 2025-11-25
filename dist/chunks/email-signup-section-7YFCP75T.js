@@ -1,0 +1,1 @@
+import{b as t}from"./chunk-NDOT7LF6.js";var n={section:"#layout-email-signup"},o=()=>{let e=document.querySelector(n.section);if(!e){console.error(`No email signup section found, set using: ${n.section}`);return}let{innerHeight:i}=t();e.style.height=`${i}px`},c=()=>{o()};export{c as initEmailSignupSection};

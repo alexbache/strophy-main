@@ -1,0 +1,28 @@
+/* src/pages/home/sections/hero/hero-images-marquee.css */
+.intro-marquee {
+  display: flex;
+  width: max-content;
+}
+.intro-marquee.marquee-left {
+  animation: scroll-left 60s linear infinite;
+}
+.intro-marquee.marquee-right {
+  animation: scroll-right 60s linear infinite;
+}
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+/*# sourceMappingURL=hero-images-marquee-RWKO446W.css.map */

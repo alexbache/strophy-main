@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/pages/entries/featured-entries-limit.ts"],
+  "sourcesContent": ["const featuredEntriesList = document.querySelector('#featured-entries-list') as HTMLElement;\n\nconst featuredEntriesLimit = 3;\n\nconst renderFeaturedEntries = () => {\n  const featuredEntries = Array.from(featuredEntriesList.children) as HTMLElement[];\n\n  // Hide all entries initially\n  featuredEntries.forEach((entry) => {\n    entry.style.display = 'none';\n  });\n\n  // Get random indices\n  const indices = new Set<number>();\n  while (indices.size < featuredEntriesLimit) {\n    indices.add(Math.floor(Math.random() * featuredEntries.length));\n  }\n\n  // Show only the randomly selected entries\n  Array.from(indices).forEach((index) => {\n    featuredEntries[index].style.display = 'block';\n  });\n};\n\nconst initFeaturedEntriesLimit = () => {\n  renderFeaturedEntries();\n};\n\nexport { initFeaturedEntriesLimit };\n"],
+  "mappings": ";;;AAAA,IAAM,sBAAsB,SAAS,cAAc,wBAAwB;AAE3E,IAAM,uBAAuB;AAE7B,IAAM,wBAAwB,MAAM;AAClC,QAAM,kBAAkB,MAAM,KAAK,oBAAoB,QAAQ;AAG/D,kBAAgB,QAAQ,CAAC,UAAU;AACjC,UAAM,MAAM,UAAU;AAAA,EACxB,CAAC;AAGD,QAAM,UAAU,oBAAI,IAAY;AAChC,SAAO,QAAQ,OAAO,sBAAsB;AAC1C,YAAQ,IAAI,KAAK,MAAM,KAAK,OAAO,IAAI,gBAAgB,MAAM,CAAC;AAAA,EAChE;AAGA,QAAM,KAAK,OAAO,EAAE,QAAQ,CAAC,UAAU;AACrC,oBAAgB,KAAK,EAAE,MAAM,UAAU;AAAA,EACzC,CAAC;AACH;AAEA,IAAM,2BAA2B,MAAM;AACrC,wBAAsB;AACxB;",
+  "names": []
+}

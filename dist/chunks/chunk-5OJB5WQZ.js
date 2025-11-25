@@ -1,0 +1,1 @@
+var i=t=>{let s=window.location.pathname;if(Array.isArray(t))return t.some(r=>{if(r.endsWith("*")){let n=r.slice(0,-1);return s.startsWith(n)}return s===r});if(t.endsWith("*")){let r=t.slice(0,-1);return s.startsWith(r)}return s===t};i("/about");i(["/about","/contact"]);i("/work/*");export{i as a};

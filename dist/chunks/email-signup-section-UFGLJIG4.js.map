@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/pages/home/sections/email-signup-section.ts"],
+  "sourcesContent": ["import { getViewportHeightMeasurements } from '../../../utils/page-utils';\n\nconst SELECTORS = {\n  section: '#layout-email-signup',\n};\n\nconst emailSignupSection = () => {\n  const section = document.querySelector(SELECTORS.section) as HTMLElement;\n\n  if (!section) {\n    console.error(`No email signup section found, set using: ${SELECTORS.section}`);\n    return;\n  }\n\n  const { innerHeight } = getViewportHeightMeasurements();\n\n  section.style.height = `${innerHeight}px`;\n};\n\nconst initEmailSignupSection = () => {\n  emailSignupSection();\n};\n\nexport { initEmailSignupSection };\n"],
+  "mappings": ";;;;;;AAEA,IAAM,YAAY;AAAA,EAChB,SAAS;AACX;AAEA,IAAM,qBAAqB,MAAM;AAC/B,QAAM,UAAU,SAAS,cAAc,UAAU,OAAO;AAExD,MAAI,CAAC,SAAS;AACZ,YAAQ,MAAM,6CAA6C,UAAU,OAAO,EAAE;AAC9E;AAAA,EACF;AAEA,QAAM,EAAE,YAAY,IAAI,8BAA8B;AAEtD,UAAQ,MAAM,SAAS,GAAG,WAAW;AACvC;AAEA,IAAM,yBAAyB,MAAM;AACnC,qBAAmB;AACrB;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/pages/home/sections/hero/hero-text-marquee.css"],
+  "sourcesContent": [".text-marquee_inner {\n  animation: scroll-left 150s linear infinite;\n}\n"],
+  "mappings": ";AAAA,CAAC;AACC,aAAW,YAAY,KAAK,OAAO;AACrC;",
+  "names": []
+}

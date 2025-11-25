@@ -1,0 +1,1 @@
+import{a as r}from"./chunk-DCW6JJXJ.js";var t=()=>{let e=document.querySelector('[marquee-element="text-inner-frame"]');if(e||console.error('Marquee inner frame not found = [marquee-element="text-inner-frame"]'),e){let n=e.innerHTML;e.innerHTML=n+n,r.to(e,{x:"-50%",duration:150,ease:"none",repeat:-1})}},a=()=>{t()};export{a as initHeroTextMarquee};

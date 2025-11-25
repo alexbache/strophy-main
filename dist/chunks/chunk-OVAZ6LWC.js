@@ -1,0 +1,1 @@
+var h=(t,o=250,i)=>{let e,n=window.innerWidth,r=()=>{clearTimeout(e),e=setTimeout(()=>{if(i?.widthOnly){let d=window.innerWidth;Math.abs(d-n)>=(i.threshold||0)&&(t(),n=d)}else t()},o)};return window.addEventListener("resize",r),()=>{window.removeEventListener("resize",r),clearTimeout(e)}};export{h as a};

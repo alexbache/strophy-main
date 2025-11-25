@@ -1,0 +1,5 @@
+/* src/pages/home/sections/hero/hero-text-marquee.css */
+.text-marquee_inner {
+  animation: scroll-left 150s linear infinite;
+}
+/*# sourceMappingURL=hero-text-marquee-TLJHTTON.css.map */
