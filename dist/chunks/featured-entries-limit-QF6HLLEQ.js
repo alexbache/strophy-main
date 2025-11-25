@@ -1,0 +1,1 @@
+var n=document.querySelector("#featured-entries-list"),s=3,i=()=>{let e=Array.from(n.children);e.forEach(r=>{r.style.display="none"});let t=new Set;for(;t.size<s;)t.add(Math.floor(Math.random()*e.length));Array.from(t).forEach(r=>{e[r].style.display="block"})},a=()=>{i()};export{a as initFeaturedEntriesLimit};

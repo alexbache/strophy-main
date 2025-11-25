@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/pages/thankyou/thank-you.ts"],
+  "sourcesContent": ["import { getViewportHeightMeasurements } from '$utils/page-utils';\n\nconst sectionResize = () => {\n  const { innerHeight, navbarHeight } = getViewportHeightMeasurements();\n  const section = document.querySelector('#thank-you') as HTMLElement;\n  if (!section) console.error('Thank you section not found - #thank-you');\n  if (section) {\n    section.style.height = `${innerHeight}px`;\n    section.style.paddingBottom = `${navbarHeight}px`;\n  }\n};\n\nconst initThankYou = () => {\n  sectionResize();\n};\n\nexport { initThankYou };\n"],
+  "mappings": ";;;;;;AAEA,IAAM,gBAAgB,MAAM;AAC1B,QAAM,EAAE,aAAa,aAAa,IAAI,8BAA8B;AACpE,QAAM,UAAU,SAAS,cAAc,YAAY;AACnD,MAAI,CAAC,QAAS,SAAQ,MAAM,0CAA0C;AACtE,MAAI,SAAS;AACX,YAAQ,MAAM,SAAS,GAAG,WAAW;AACrC,YAAQ,MAAM,gBAAgB,GAAG,YAAY;AAAA,EAC/C;AACF;AAEA,IAAM,eAAe,MAAM;AACzB,gBAAc;AAChB;",
+  "names": []
+}

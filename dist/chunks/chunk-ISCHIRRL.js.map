@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/utils/is-page.ts"],
+  "sourcesContent": ["// Check current pathname\nexport const isPage = (path: string | string[]) => {\n  const currentPath = window.location.pathname;\n\n  if (Array.isArray(path)) {\n    return path.some((p) => {\n      if (p.endsWith('*')) {\n        const basePath = p.slice(0, -1);\n        return currentPath.startsWith(basePath);\n      }\n      return currentPath === p;\n    });\n  }\n\n  if (path.endsWith('*')) {\n    const basePath = path.slice(0, -1);\n    return currentPath.startsWith(basePath);\n  }\n\n  return currentPath === path;\n};\n\n// Usage\nif (isPage('/about')) {\n  // Run code for about page\n}\n\n// Or for multiple pages\nif (isPage(['/about', '/contact'])) {\n  // Run code for these pages\n}\n\n// Or with wildcards\nif (isPage('/work/*')) {\n  // Run code for any page under /work/\n}\n"],
+  "mappings": ";AACO,IAAM,SAAS,CAAC,SAA4B;AACjD,QAAM,cAAc,OAAO,SAAS;AAEpC,MAAI,MAAM,QAAQ,IAAI,GAAG;AACvB,WAAO,KAAK,KAAK,CAAC,MAAM;AACtB,UAAI,EAAE,SAAS,GAAG,GAAG;AACnB,cAAM,WAAW,EAAE,MAAM,GAAG,EAAE;AAC9B,eAAO,YAAY,WAAW,QAAQ;AAAA,MACxC;AACA,aAAO,gBAAgB;AAAA,IACzB,CAAC;AAAA,EACH;AAEA,MAAI,KAAK,SAAS,GAAG,GAAG;AACtB,UAAM,WAAW,KAAK,MAAM,GAAG,EAAE;AACjC,WAAO,YAAY,WAAW,QAAQ;AAAA,EACxC;AAEA,SAAO,gBAAgB;AACzB;AAGA,IAAI,OAAO,QAAQ,GAAG;AAEtB;AAGA,IAAI,OAAO,CAAC,UAAU,UAAU,CAAC,GAAG;AAEpC;AAGA,IAAI,OAAO,SAAS,GAAG;AAEvB;",
+  "names": []
+}

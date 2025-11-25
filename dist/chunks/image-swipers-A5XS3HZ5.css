@@ -1,82 +1,3 @@
-/* src/pages/home/sections/hero/hero-text-marquee.css */
-.text-marquee_inner {
-  animation: scroll-left 150s linear infinite;
-}
-
-/* src/pages/home/sections/hero/hero-images-marquee.css */
-.intro-marquee {
-  display: flex;
-  width: max-content;
-}
-.intro-marquee.marquee-left {
-  animation: scroll-left 120s linear infinite;
-}
-.intro-marquee.marquee-right {
-  animation: scroll-right 120s linear infinite;
-}
-@keyframes scroll-left {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-@keyframes scroll-right {
-  0% {
-    transform: translate3d(-50%, 0, 0);
-  }
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-/* src/integrations/klaviyo-forms/klaviyo-styles.css */
-.klaviyo-form button {
-  text-align: center !important;
-  text-transform: uppercase !important;
-  border-radius: 2px !important;
-  flex: none !important;
-  font-size: 0.6875rem !important;
-  font-weight: 600 !important;
-  line-height: 1.45455 !important;
-  text-decoration: none !important;
-  padding: 0rem 1.5rem !important;
-  margin-left: 12px !important;
-  border-width: 0px !important;
-}
-.klaviyo-form p {
-  letter-spacing: 0.4px !important;
-}
-.klaviyo-form span {
-  letter-spacing: 0.4px !important;
-}
-@media (max-width: 768px) {
-  .stacked-form {
-    display: block !important;
-  }
-  .klaviyo-form button {
-    margin-left: 0px !important;
-    width: 100% !important;
-    padding-left: 0px !important;
-    margin-top: 12px !important;
-    padding-right: 0px !important;
-  }
-  .klaviyo-form input {
-    text-align: center !important;
-    padding-left: 0px !important;
-  }
-}
-@media (min-width: 768px) {
-  .stacked-form {
-    display: flex !important;
-  }
-}
-.klaviyo-form img[src*=Instagram_Glyph] {
-  margin-bottom: 1px;
-  margin-right: 4px;
-}
-
 /* node_modules/.pnpm/swiper@11.2.6/node_modules/swiper/swiper.css */
 @font-face {
   font-family: "swiper-icons";
@@ -466,4 +387,4 @@ button.swiper-pagination-bullet {
 .swiper-pagination {
   padding-top: 10px !important;
 }
-/*# sourceMappingURL=index.css.map */
+/*# sourceMappingURL=image-swipers-A5XS3HZ5.css.map */

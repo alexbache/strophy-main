@@ -1,0 +1,1 @@
+import{b as e}from"./chunk-NDOT7LF6.js";var i=()=>{let{innerHeight:o,navbarHeight:n}=e(),t=document.querySelector("#thank-you");t||console.error("Thank you section not found - #thank-you"),t&&(t.style.height=`${o}px`,t.style.paddingBottom=`${n}px`)},r=()=>{i()};export{r as initThankYou};

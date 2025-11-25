@@ -5,12 +5,13 @@ import { join, sep } from 'path';
 // Config output
 const BUILD_DIRECTORY = 'dist';
 const PRODUCTION = process.env.NODE_ENV === 'production';
+const PREVIEW = process.env.MODE === 'preview'; // New preview mode
 
 // Config entrypoint files
 const ENTRY_POINTS = ['src/index.ts'];
 
 // Config dev serving
-const LIVE_RELOAD = !PRODUCTION;
+const LIVE_RELOAD = !PRODUCTION && !PREVIEW;
 const SERVE_PORT = 3000;
 const SERVE_ORIGIN = `http://localhost:${SERVE_PORT}`;
 
@@ -19,13 +20,18 @@ const context = await esbuild.context({
   bundle: true,
   entryPoints: ENTRY_POINTS,
   outdir: BUILD_DIRECTORY,
-  minify: PRODUCTION,
-  sourcemap: !PRODUCTION,
-  target: PRODUCTION ? 'es2020' : 'esnext',
+  minify: PRODUCTION || PREVIEW, // Minify in preview mode too
+  sourcemap: !PRODUCTION && !PREVIEW, // No sourcemap in preview
+  target: PRODUCTION || PREVIEW ? 'es2020' : 'esnext',
   inject: LIVE_RELOAD ? ['./bin/live-reload.js'] : undefined,
   define: {
     SERVE_ORIGIN: JSON.stringify(SERVE_ORIGIN),
   },
+  splitting: true,
+  format: 'esm',
+  chunkNames: 'chunks/[name]-[hash]',
+  treeShaking: true,
+  legalComments: 'none',
 });
 
 // Build files in prod

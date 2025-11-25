@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/pages/home/sections/hero/hero-images-marquee.css"],
+  "sourcesContent": [".intro-marquee {\n  display: flex;\n  width: max-content;\n}\n\n.intro-marquee.marquee-left {\n  animation: scroll-left 60s linear infinite;\n}\n\n.intro-marquee.marquee-right {\n  animation: scroll-right 60s linear infinite;\n}\n\n/**\n * Cloned marquee rows should scroll at double speed.\n * Clones from JS get [data-clone=\"true\"] attribute.\n * So: select .intro-marquee[data-clone=\"true\"]\n */\n.intro-marquee[data-clone='true'].marquee-left {\n  animation: scroll-left 60s linear infinite;\n}\n\n.intro-marquee[data-clone='true'].marquee-right {\n  animation: scroll-right 60s linear infinite;\n}\n\n/* Keyframes for left scroll */\n@keyframes scroll-left {\n  0% {\n    transform: translateX(0);\n  }\n  100% {\n    transform: translateX(-50%);\n  }\n}\n\n/* Keyframes for right scroll */\n@keyframes scroll-right {\n  0% {\n    transform: translateX(-50%);\n  }\n  100% {\n    transform: translateX(0);\n  }\n}\n"],
+  "mappings": ";AAAA,CAAC;AACC,WAAS;AACT,SAAO;AACT;AAEA,CALC,aAKa,CAAC;AACb,aAAW,YAAY,IAAI,OAAO;AACpC;AAEA,CATC,aASa,CAAC;AACb,aAAW,aAAa,IAAI,OAAO;AACrC;AAOA,CAlBC,aAkBa,CAAC,gBAAkB,CAblB;AAcb,aAAW,YAAY,IAAI,OAAO;AACpC;AAEA,CAtBC,aAsBa,CAAC,gBAAkB,CAblB;AAcb,aAAW,aAAa,IAAI,OAAO;AACrC;AAGA,WArBa;AAsBX;AACE,eAAW,WAAW;AACxB;AACA;AACE,eAAW,WAAW;AACxB;AACF;AAGA,WA3Ba;AA4BX;AACE,eAAW,WAAW;AACxB;AACA;AACE,eAAW,WAAW;AACxB;AACF;",
+  "names": []
+}

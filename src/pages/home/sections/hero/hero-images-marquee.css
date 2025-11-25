@@ -1,0 +1,33 @@
+.intro-marquee {
+  display: flex;
+  width: max-content;
+}
+
+.intro-marquee.marquee-left {
+  animation: scroll-left 120s linear infinite;
+}
+
+.intro-marquee.marquee-right {
+  animation: scroll-right 120s linear infinite;
+}
+
+/* Keyframes for left scroll */
+@keyframes scroll-left {
+  0% {
+    /* transform: translateX(0); */
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Keyframes for right scroll */
+@keyframes scroll-right {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
