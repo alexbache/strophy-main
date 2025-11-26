@@ -11,6 +11,27 @@
   animation: scroll-right 120s linear infinite;
 }
 
+.hero-image-marquee-loader {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hero-image-marquee-loader.loaded {
+  opacity: 0;
+}
+
+.hero-logo-cloud-loader {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hero-logo-cloud-loader.loaded {
+  opacity: 0;
+}
+
+.hero-text-marquee-loader {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hero-text-marquee-loader.loaded {
+  opacity: 0;
+}
+
 /* Keyframes for left scroll */
 @keyframes scroll-left {
   0% {

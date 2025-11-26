@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/utils/handle-external-links.ts"],
+  "sourcesContent": ["/**\n * Adds target=\"_blank\" and rel=\"noopener noreferrer\" to external links\n */\nconst handleExternalLinks = () => {\n  // Get all links on the page\n  const links = document.querySelectorAll('a');\n\n  links.forEach((link) => {\n    const href = link.getAttribute('href');\n\n    // Check if link is external (starts with http/https or different domain)\n    if (\n      href &&\n      (href.startsWith('http') ||\n        href.startsWith('https') ||\n        (href.includes('://') && !href.includes(window.location.hostname)))\n    ) {\n      link.setAttribute('target', '_blank');\n      link.setAttribute('rel', 'noopener noreferrer');\n    }\n  });\n};\n\nexport { handleExternalLinks };\n"],
+  "mappings": ";;;AAGA,IAAM,sBAAsB,MAAM;AAEhC,QAAM,QAAQ,SAAS,iBAAiB,GAAG;AAE3C,QAAM,QAAQ,CAAC,SAAS;AACtB,UAAM,OAAO,KAAK,aAAa,MAAM;AAGrC,QACE,SACC,KAAK,WAAW,MAAM,KACrB,KAAK,WAAW,OAAO,KACtB,KAAK,SAAS,KAAK,KAAK,CAAC,KAAK,SAAS,OAAO,SAAS,QAAQ,IAClE;AACA,WAAK,aAAa,UAAU,QAAQ;AACpC,WAAK,aAAa,OAAO,qBAAqB;AAAA,IAChD;AAAA,EACF,CAAC;AACH;",
+  "names": []
+}

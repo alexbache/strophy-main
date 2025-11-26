@@ -4849,6 +4849,14 @@ function initializeFilterSystem(groupId) {
             const value = trigger.getAttribute(ATTRIBUTES2.FILTER_VALUE);
             if (value) {
               setActiveFilter(value, "button", groupId);
+              if (groupId === "categories") {
+                const filterLists = document.querySelectorAll(
+                  `[${ATTRIBUTES2.LIST_ID}="categories"]`
+                );
+                filterLists.forEach((filterList) => {
+                  filterList.classList.remove("hide-after-4");
+                });
+              }
             }
           });
         });
@@ -4865,6 +4873,14 @@ function initializeFilterSystem(groupId) {
       const firstValue = firstTrigger.getAttribute(ATTRIBUTES2.FILTER_VALUE);
       if (firstValue) {
         setActiveFilter(firstValue, "initial", groupId);
+        if (groupId === "categories") {
+          const filterLists = document.querySelectorAll(
+            `[${ATTRIBUTES2.LIST_ID}="categories"]`
+          );
+          filterLists.forEach((filterList) => {
+            filterList.classList.remove("hide-after-4", "hide-on-initial-load");
+          });
+        }
       }
     };
     const setHasSwiper = (hasSwiper) => {
@@ -5026,4 +5042,4 @@ export {
   getCurrentFilterValue,
   initFilters
 };
-//# sourceMappingURL=chunk-BCELIIGI.js.map
+//# sourceMappingURL=chunk-KJ3XVMPD.js.map

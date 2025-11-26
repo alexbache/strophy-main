@@ -15,7 +15,12 @@ const stopPageScroll = (shouldStop: boolean, menuElement?: HTMLElement) => {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === 'style') {
           const isOpen = menuElement.style.display !== 'none';
-          stopPageScroll(isOpen);
+          // Only apply scroll lock if menu is actually visible
+          if (isOpen) {
+            stopPageScroll(true);
+          } else {
+            stopPageScroll(false);
+          }
         }
       });
     });
@@ -27,27 +32,28 @@ const stopPageScroll = (shouldStop: boolean, menuElement?: HTMLElement) => {
   }
 
   if (shouldStop) {
-    // Store current scroll position
-    const { scrollY } = window;
+    // Only apply scroll lock if body isn't already locked
+    if (body.style.position !== 'fixed') {
+      // Store current scroll position
+      const { scrollY } = window;
 
-    // Prevent scrolling while maintaining position
-    body.style.position = 'fixed';
-    body.style.top = `-${scrollY}px`;
-    body.style.width = '100%';
-    html.style.scrollBehavior = 'auto';
-    // console.log('stopping page scroll', {
-    //   scrollY,
-    //   body,
-    //   html,
-    // });
+      // Prevent scrolling while maintaining position
+      body.style.position = 'fixed';
+      body.style.top = `-${scrollY}px`;
+      body.style.width = '100%';
+      html.style.scrollBehavior = 'auto';
+    }
   } else {
-    // Re-enable scrolling and restore position
-    const scrollY = body.style.top;
-    body.style.position = '';
-    body.style.top = '';
-    body.style.width = '';
-    html.style.scrollBehavior = '';
-    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    // Only remove scroll lock if body is currently locked
+    if (body.style.position === 'fixed') {
+      // Re-enable scrolling and restore position
+      const scrollY = body.style.top;
+      body.style.position = '';
+      body.style.top = '';
+      body.style.width = '';
+      html.style.scrollBehavior = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
   }
 
   return () => {

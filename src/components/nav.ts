@@ -141,6 +141,8 @@ const navMenuPosition = () => {
   });
 };
 
+let cleanupScrollLock: (() => void) | undefined;
+
 const handleMobileMenuOpen = () => {
   const { mobileMenu } = getMobileMenu();
   if (!mobileMenu) {
@@ -148,9 +150,45 @@ const handleMobileMenuOpen = () => {
     return;
   }
 
-  if (!isDesktop()) {
-    return stopPageScroll(false, mobileMenu);
+  // Clean up existing observer if present
+  if (cleanupScrollLock) {
+    cleanupScrollLock();
+    cleanupScrollLock = undefined;
   }
+
+  // Only set up scroll lock observer on mobile/tablet
+  if (!isDesktop()) {
+    cleanupScrollLock = stopPageScroll(false, mobileMenu);
+  }
+
+  // Add resize handler to clean up observer when switching to desktop
+  const cleanupResize = handleResize(
+    () => {
+      if (isDesktop() && cleanupScrollLock) {
+        // Ensure scroll is unlocked and observer is disconnected
+        stopPageScroll(false);
+        cleanupScrollLock();
+        cleanupScrollLock = undefined;
+      } else if (!isDesktop() && !cleanupScrollLock) {
+        // Re-setup observer if we're back on mobile
+        cleanupScrollLock = stopPageScroll(false, mobileMenu);
+      }
+    },
+    100,
+    {
+      widthOnly: true,
+      threshold: 10,
+    }
+  );
+
+  return () => {
+    if (cleanupScrollLock) {
+      cleanupScrollLock();
+    }
+    if (cleanupResize) {
+      cleanupResize();
+    }
+  };
 };
 
 // const handleMobileNavAppear = () => {

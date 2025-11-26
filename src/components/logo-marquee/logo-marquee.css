@@ -1,0 +1,36 @@
+/* Logo Marquee - Only animate on tablet/mobile (< 992px) */
+
+/* Desktop: Static centered layout */
+[logo-marquee-element='outer-row'] {
+  display: flex;
+  justify-content: center;
+  /* width: max-content; */
+  /* overflow: hidden; */
+}
+
+[logo-marquee-element='inner-row'] {
+  display: flex;
+  flex-shrink: 0;
+  width: max-content;
+}
+
+/* Tablet/Mobile: Marquee animation */
+@media (max-width: 991px) {
+  [logo-marquee-element='outer-row'] {
+    justify-content: flex-start;
+    animation: logo-marquee-scroll 60s linear infinite;
+  }
+
+  [logo-marquee-element='inner-row'] {
+    flex-shrink: 0;
+  }
+}
+
+@keyframes logo-marquee-scroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
