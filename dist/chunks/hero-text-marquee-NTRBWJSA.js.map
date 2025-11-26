@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../src/pages/home/sections/hero/hero-text-marquee.ts"],
-  "sourcesContent": ["import './hero-text-marquee.css';\n\nconst initHeroTextMarquee = () => {\n  const textMarqueeInner = document.querySelector('.text-marquee_inner');\n  if (!textMarqueeInner) {\n    console.error('Text marquee inner not found');\n    return;\n  }\n};\n\nexport { initHeroTextMarquee };\n"],
-  "mappings": ";;;;AAEA,IAAM,sBAAsB,MAAM;AAChC,QAAM,mBAAmB,SAAS,cAAc,qBAAqB;AACrE,MAAI,CAAC,kBAAkB;AACrB,YAAQ,MAAM,8BAA8B;AAC5C;AAAA,EACF;AACF;",
-  "names": []
-}

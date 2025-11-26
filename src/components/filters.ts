@@ -206,6 +206,16 @@ function initializeFilterSystem(groupId: string) {
             const value = trigger.getAttribute(ATTRIBUTES.FILTER_VALUE);
             if (value) {
               setActiveFilter(value, 'button', groupId);
+
+              // Remove .hide-after-4 class when categories filter is interacted with
+              if (groupId === 'categories') {
+                const filterLists = document.querySelectorAll(
+                  `[${ATTRIBUTES.LIST_ID}="categories"]`
+                ) as NodeListOf<HTMLElement>;
+                filterLists.forEach((filterList) => {
+                  filterList.classList.remove('hide-after-4');
+                });
+              }
             }
           });
         });
@@ -227,6 +237,16 @@ function initializeFilterSystem(groupId: string) {
       const firstValue = firstTrigger.getAttribute(ATTRIBUTES.FILTER_VALUE);
       if (firstValue) {
         setActiveFilter(firstValue, 'initial', groupId);
+
+        // Remove .hide-after-4 and .hide-on-initial-load classes on init for categories
+        if (groupId === 'categories') {
+          const filterLists = document.querySelectorAll(
+            `[${ATTRIBUTES.LIST_ID}="categories"]`
+          ) as NodeListOf<HTMLElement>;
+          filterLists.forEach((filterList) => {
+            filterList.classList.remove('hide-after-4', 'hide-on-initial-load');
+          });
+        }
       }
     };
 

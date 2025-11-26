@@ -1,0 +1,1 @@
+var n=()=>{document.querySelectorAll("a").forEach(e=>{let t=e.getAttribute("href");t&&(t.startsWith("http")||t.startsWith("https")||t.includes("://")&&!t.includes(window.location.hostname))&&(e.setAttribute("target","_blank"),e.setAttribute("rel","noopener noreferrer"))})};export{n as handleExternalLinks};

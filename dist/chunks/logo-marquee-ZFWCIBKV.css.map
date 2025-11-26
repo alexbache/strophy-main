@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/components/logo-marquee/logo-marquee.css"],
+  "sourcesContent": ["/* Logo Marquee - Only animate on tablet/mobile (< 992px) */\n\n/* Desktop: Static centered layout */\n[logo-marquee-element='outer-row'] {\n  display: flex;\n  justify-content: center;\n  /* width: max-content; */\n  /* overflow: hidden; */\n}\n\n[logo-marquee-element='inner-row'] {\n  display: flex;\n  flex-shrink: 0;\n  width: max-content;\n}\n\n/* Tablet/Mobile: Marquee animation */\n@media (max-width: 991px) {\n  [logo-marquee-element='outer-row'] {\n    justify-content: flex-start;\n    animation: logo-marquee-scroll 60s linear infinite;\n  }\n\n  [logo-marquee-element='inner-row'] {\n    flex-shrink: 0;\n  }\n}\n\n@keyframes logo-marquee-scroll {\n  0% {\n    transform: translate3d(0, 0, 0);\n  }\n  100% {\n    transform: translate3d(-50%, 0, 0);\n  }\n}\n"],
+  "mappings": ";AAGA,CAAC;AACC,WAAS;AACT,mBAAiB;AAGnB;AAEA,CAAC;AACC,WAAS;AACT,eAAa;AACb,SAAO;AACT;AAGA,OAAO,CAAC,SAAS,EAAE;AACjB,GAAC;AACC,qBAAiB;AACjB,eAAW,oBAAoB,IAAI,OAAO;AAC5C;AAEA,GAAC;AACC,iBAAa;AACf;AACF;AAEA,WARe;AASb;AACE,eAAW,YAAY,CAAC,EAAE,CAAC,EAAE;AAC/B;AACA;AACE,eAAW,YAAY,IAAI,EAAE,CAAC,EAAE;AAClC;AACF;",
+  "names": []
+}

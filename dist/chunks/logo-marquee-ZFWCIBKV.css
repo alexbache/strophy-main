@@ -1,0 +1,28 @@
+/* src/components/logo-marquee/logo-marquee.css */
+[logo-marquee-element=outer-row] {
+  display: flex;
+  justify-content: center;
+}
+[logo-marquee-element=inner-row] {
+  display: flex;
+  flex-shrink: 0;
+  width: max-content;
+}
+@media (max-width: 991px) {
+  [logo-marquee-element=outer-row] {
+    justify-content: flex-start;
+    animation: logo-marquee-scroll 60s linear infinite;
+  }
+  [logo-marquee-element=inner-row] {
+    flex-shrink: 0;
+  }
+}
+@keyframes logo-marquee-scroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+/*# sourceMappingURL=logo-marquee-ZFWCIBKV.css.map */
