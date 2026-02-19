@@ -1,1 +1,343 @@
-import{a as p}from"./chunks/chunk-5OJB5WQZ.js";var c={global:[{id:"nav",loader:()=>import("./chunks/nav-WAWYKQVA.js"),initFunction:"initNav",displayName:"Navigation",selector:"#navbar"},{id:"logo-marquee",loader:()=>import("./chunks/logo-marquee-XDJ4GODR.js"),initFunction:"initLogoMarquee",displayName:"Logo Marquee"},{id:"phase-control",loader:()=>import("./chunks/phase-control-6VLIDUFF.js"),initFunction:"initPhaseControl",displayName:"Phase Control"},{id:"contact-modal",loader:()=>import("./chunks/contact-modal-TEROB5LC.js"),initFunction:"initContactModal",displayName:"Contact Modal",selector:"#contact-modal"},{id:"klaviyo-styling",loader:()=>import("./chunks/klaviyo-styling-XPNEGF67.js"),initFunction:"initKlaviyoStyling",displayName:"Klaviyo Forms"},{id:"external-links",loader:()=>import("./chunks/handle-external-links-OFWCR3T4.js"),initFunction:"handleExternalLinks",displayName:"External Links Handler"}],pageSpecific:[{id:"intro-animation",loader:()=>import("./chunks/intro-scene-QA37JT5G.js"),initFunction:"initIntroAnimation",routes:"/",selector:'[data-section="hero"]',displayName:"Intro Animation"},{id:"prizes-bg-marquee",loader:()=>import("./chunks/image-marquee-2DVT4N32.js"),initFunction:"initPrizesBgMarquee",routes:"/",displayName:"Prizes Background Marquee"},{id:"cash-prizes",loader:()=>import("./chunks/cash-prizes-J5JM4RPV.js"),initFunction:"initCashPrizes",routes:"/",displayName:"Cash Prizes Animation"},{id:"parallax-bg",loader:()=>import("./chunks/parallax-bg-5UOOGTZD.js"),initFunction:"initParallaxBackground",routes:"/",displayName:"Parallax Background"},{id:"email-signup",loader:()=>import("./chunks/email-signup-section-7YFCP75T.js"),initFunction:"initEmailSignupSection",routes:"/",displayName:"Email Signup Section"},{id:"competition-dates",loader:()=>import("./chunks/competition-dates-M2YICH4I.js"),initFunction:"initCompetitionDates",routes:"/",displayName:"Competition Dates"},{id:"category-layout",loader:()=>import("./chunks/categories-SUBKRR7H.js"),initFunction:"initCategoryLayout",routes:"/",displayName:"Category Layout"},{id:"inspiration-slider",loader:()=>import("./chunks/inspiration-KXS2JH3S.js"),initFunction:"initInspirationImageSlider",routes:"/",displayName:"Inspiration Slider"},{id:"home-filters",loader:()=>import("./chunks/filters-E7CYKL2C.js"),initFunction:"initFilters",routes:"/",displayName:"Home Page Filters"},{id:"categories-animation",loader:()=>import("./chunks/categories-animation-MIMDD4FS.js"),initFunction:"default",routes:"/",displayName:"Categories Animation"},{id:"section-renderer",loader:()=>import("./chunks/section-renderer-3MMUEO6H.js"),initFunction:"initSectionRenderer",routes:"/entries",displayName:"Section Renderer"},{id:"featured-entries-limit",loader:()=>import("./chunks/featured-entries-limit-QF6HLLEQ.js"),initFunction:"initFeaturedEntriesLimit",routes:"/entries",displayName:"Featured Entries Limit"},{id:"winner-position",loader:()=>import("./chunks/winners-7C5YFEZ5.js"),initFunction:"initWinnerItemPosition",routes:"/entries",displayName:"Winner Item Position"},{id:"entries-filters",loader:()=>import("./chunks/filters-E7CYKL2C.js"),initFunction:"initFilters",routes:"/entries",displayName:"Entries Page Filters"},{id:"entries-swiper",loader:()=>import("./chunks/image-swipers-65HDAFMH.js"),initFunction:"initSwiper",routes:"/entries",displayName:"Entries Swiper",args:["featured-entries"]},{id:"page-top-padding",loader:()=>import("./chunks/page-utils-SYCS7NTP.js"),initFunction:"setPagePageTopPadding",routes:["/entries/*","/winners/*"],displayName:"Page Top Padding"},{id:"entry-cms-page",loader:()=>import("./chunks/entry-cms-item-page-XZQIUNO6.js"),initFunction:"entryCMSItemPage",routes:["/entries/*","/winners/*"],displayName:"Entry CMS Item Page"},{id:"thank-you",loader:()=>import("./chunks/thank-you-OA5ZHJZO.js"),initFunction:"initThankYou",routes:"/thank-you",displayName:"Thank You Page"}]};var h=e=>e.routes&&!p(e.routes)?{should:!1,reason:`Route mismatch (current: ${window.location.pathname})`}:e.selector&&!document.querySelector(e.selector)?{should:!1,reason:`Selector not found: ${e.selector}`}:{should:!0},F=async(e,o={})=>{let{maxRetries:n=1,retryDelay:r=1e3,debug:i=!1}=o,s=e.displayName||e.id,{should:u,reason:d}=h(e);if(!u)return i&&console.log(`[AsyncLoader] Skipping ${s}: ${d}`),{id:e.id,success:!0,skipped:!0,skipReason:d};let t=null,a=0;for(;a<=n;)try{i&&a>0&&console.log(`[AsyncLoader] Retry attempt ${a} for ${s}`);let m=(await e.loader())[e.initFunction];if(typeof m!="function")throw new Error(`Init function "${e.initFunction}" not found or not a function in module`);return e.args&&e.args.length>0?m(...e.args):m(),i&&console.log(`[AsyncLoader] Successfully loaded ${s}`),{id:e.id,success:!0}}catch(l){t=l,a++,a<=n&&await new Promise(m=>setTimeout(m,r))}return console.error(`[AsyncLoader] Failed to load ${s} after ${n+1} attempts:`,t),{id:e.id,success:!1,error:t}},y=async(e,o={})=>{let{debug:n=!1}=o;n&&console.log(`[AsyncLoader] Starting to load ${e.length} components in parallel`);let i=(await Promise.allSettled(e.map(t=>F(t,o)))).map((t,a)=>{if(t.status==="fulfilled")return t.value;let l=e[a];return console.error(`[AsyncLoader] Unexpected error loading ${l.displayName||l.id}:`,t.reason),{id:l.id,success:!1,error:t.reason,skipped:!1}}),s=i.filter(t=>t.success&&t.skipped!==!0).length,u=i.filter(t=>t.skipped===!0).length,d=i.filter(t=>t.success===!1).length;return(n||d>0)&&console.log(`[AsyncLoader] Load summary: ${s} successful, ${u} skipped, ${d} failed`),i},g=async(e,o={})=>{let n=e.filter(r=>r.routes?p(r.routes):!1);return y(n,o)},f=async(e,o={})=>y(e,o);var C=()=>new Promise(e=>{document.readyState==="loading"?document.addEventListener("DOMContentLoaded",()=>e()):e()});console.log("Index.ts loaded");C().then(async()=>{let[e,o]=await Promise.all([f(c.global,{maxRetries:1,debug:!0}),g(c.pageSpecific,{maxRetries:1,debug:!0})]),r=[...e,...o].filter(i=>!i.success);r.length>0&&console.error("[App] Some components failed to load:",r.map(i=>i.id))});
+import {
+  isPage
+} from "./chunks/chunk-ISCHIRRL.js";
+import "./chunks/chunk-JG2TWXUP.js";
+
+// src/config/component-registry.ts
+var COMPONENT_REGISTRY = {
+  // Global components - load on every page
+  global: [
+    {
+      id: "nav",
+      loader: () => import("./chunks/nav-UFB3B3O3.js"),
+      initFunction: "initNav",
+      displayName: "Navigation",
+      selector: "#navbar"
+    },
+    {
+      id: "logo-marquee",
+      loader: () => import("./chunks/logo-marquee-6L5SWCGT.js"),
+      initFunction: "initLogoMarquee",
+      displayName: "Logo Marquee"
+    },
+    {
+      id: "phase-control",
+      loader: () => import("./chunks/phase-control-S7RRPBHS.js"),
+      initFunction: "initPhaseControl",
+      displayName: "Phase Control"
+    },
+    {
+      id: "contact-modal",
+      loader: () => import("./chunks/contact-modal-62VV73LT.js"),
+      initFunction: "initContactModal",
+      displayName: "Contact Modal",
+      selector: "#contact-modal"
+    },
+    {
+      id: "klaviyo-styling",
+      loader: () => import("./chunks/klaviyo-styling-OE3DPH5O.js"),
+      initFunction: "initKlaviyoStyling",
+      displayName: "Klaviyo Forms"
+    },
+    {
+      id: "external-links",
+      loader: () => import("./chunks/handle-external-links-VNDGVRIU.js"),
+      initFunction: "handleExternalLinks",
+      displayName: "External Links Handler"
+    }
+  ],
+  // Page-specific components
+  pageSpecific: [
+    // Home page components
+    {
+      id: "intro-animation",
+      loader: () => import("./chunks/intro-scene-EDIFB7FS.js"),
+      initFunction: "initIntroAnimation",
+      routes: "/",
+      selector: '[data-section="hero"]',
+      displayName: "Intro Animation"
+    },
+    {
+      id: "prizes-bg-marquee",
+      loader: () => import("./chunks/image-marquee-SQSNBWMO.js"),
+      initFunction: "initPrizesBgMarquee",
+      routes: "/",
+      displayName: "Prizes Background Marquee"
+    },
+    {
+      id: "cash-prizes",
+      loader: () => import("./chunks/cash-prizes-6V4JNYTI.js"),
+      initFunction: "initCashPrizes",
+      routes: "/",
+      displayName: "Cash Prizes Animation"
+    },
+    {
+      id: "parallax-bg",
+      loader: () => import("./chunks/parallax-bg-KZBPDY4S.js"),
+      initFunction: "initParallaxBackground",
+      routes: "/",
+      displayName: "Parallax Background"
+    },
+    {
+      id: "email-signup",
+      loader: () => import("./chunks/email-signup-section-UFGLJIG4.js"),
+      initFunction: "initEmailSignupSection",
+      routes: "/",
+      displayName: "Email Signup Section"
+    },
+    {
+      id: "competition-dates",
+      loader: () => import("./chunks/competition-dates-7IU4T2GJ.js"),
+      initFunction: "initCompetitionDates",
+      routes: "/",
+      displayName: "Competition Dates"
+    },
+    {
+      id: "category-layout",
+      loader: () => import("./chunks/categories-EQDADREA.js"),
+      initFunction: "initCategoryLayout",
+      routes: "/",
+      displayName: "Category Layout"
+    },
+    {
+      id: "inspiration-slider",
+      loader: () => import("./chunks/inspiration-HQYBWKIY.js"),
+      initFunction: "initInspirationImageSlider",
+      routes: "/",
+      displayName: "Inspiration Slider"
+    },
+    {
+      id: "home-filters",
+      loader: () => import("./chunks/filters-MGSCCAVG.js"),
+      initFunction: "initFilters",
+      routes: "/",
+      displayName: "Home Page Filters"
+    },
+    {
+      id: "categories-animation",
+      loader: () => import("./chunks/categories-animation-5A3B5VEE.js"),
+      initFunction: "default",
+      routes: "/",
+      displayName: "Categories Animation"
+    },
+    // Entries list page components
+    {
+      id: "section-renderer",
+      loader: () => import("./chunks/section-renderer-HWJF6ZKE.js"),
+      initFunction: "initSectionRenderer",
+      routes: "/entries",
+      displayName: "Section Renderer"
+    },
+    {
+      id: "entries-list-merge",
+      loader: () => import("./chunks/entries-list-merge-ZJMLFK6T.js"),
+      initFunction: "initEntriesListMerge",
+      routes: "/entries",
+      displayName: "Entries List Merge"
+    },
+    {
+      id: "featured-entries-limit",
+      loader: () => import("./chunks/featured-entries-limit-FXVHZ3F3.js"),
+      initFunction: "initFeaturedEntriesLimit",
+      routes: "/entries",
+      displayName: "Featured Entries Limit"
+    },
+    {
+      id: "winner-position",
+      loader: () => import("./chunks/winners-4SLZKJEN.js"),
+      initFunction: "initWinnerItemPosition",
+      routes: "/entries",
+      displayName: "Winner Item Position"
+    },
+    {
+      id: "entries-filters",
+      loader: () => import("./chunks/filters-MGSCCAVG.js"),
+      initFunction: "initFilters",
+      routes: "/entries",
+      displayName: "Entries Page Filters"
+    },
+    {
+      id: "entries-swiper",
+      loader: () => import("./chunks/image-swipers-DQY37V2L.js"),
+      initFunction: "initSwiper",
+      routes: "/entries",
+      displayName: "Entries Swiper",
+      args: ["featured-entries"]
+    },
+    // Entry/Winner single pages
+    {
+      id: "page-top-padding",
+      loader: () => import("./chunks/page-utils-IYEIJEPU.js"),
+      initFunction: "setPagePageTopPadding",
+      routes: ["/entries/*", "/winners/*"],
+      displayName: "Page Top Padding"
+    },
+    {
+      id: "entry-cms-page",
+      loader: () => import("./chunks/entry-cms-item-page-ZV7KBFPZ.js"),
+      initFunction: "entryCMSItemPage",
+      routes: ["/entries/*", "/winners/*"],
+      displayName: "Entry CMS Item Page"
+    },
+    // Thank you page
+    {
+      id: "thank-you",
+      loader: () => import("./chunks/thank-you-374UP7CM.js"),
+      initFunction: "initThankYou",
+      routes: "/thank-you",
+      displayName: "Thank You Page"
+    }
+  ]
+};
+
+// src/utils/async-loader.ts
+var shouldLoadComponent = (config) => {
+  if (config.routes && !isPage(config.routes)) {
+    return {
+      should: false,
+      reason: `Route mismatch (current: ${window.location.pathname})`
+    };
+  }
+  if (config.selector && !document.querySelector(config.selector)) {
+    return {
+      should: false,
+      reason: `Selector not found: ${config.selector}`
+    };
+  }
+  return { should: true };
+};
+var loadComponentWithRetry = async (config, options = {}) => {
+  const { maxRetries = 1, retryDelay = 1e3, debug = false } = options;
+  const displayName = config.displayName || config.id;
+  const { should, reason } = shouldLoadComponent(config);
+  if (!should) {
+    if (debug) {
+      console.log(`[AsyncLoader] Skipping ${displayName}: ${reason}`);
+    }
+    return {
+      id: config.id,
+      success: true,
+      skipped: true,
+      skipReason: reason
+    };
+  }
+  let lastError = null;
+  let attempt = 0;
+  while (attempt <= maxRetries) {
+    try {
+      if (debug && attempt > 0) {
+        console.log(`[AsyncLoader] Retry attempt ${attempt} for ${displayName}`);
+      }
+      const module = await config.loader();
+      const initFn = module[config.initFunction];
+      if (typeof initFn !== "function") {
+        throw new Error(
+          `Init function "${config.initFunction}" not found or not a function in module`
+        );
+      }
+      if (config.args && config.args.length > 0) {
+        initFn(...config.args);
+      } else {
+        initFn();
+      }
+      if (debug) {
+        console.log(`[AsyncLoader] Successfully loaded ${displayName}`);
+      }
+      return { id: config.id, success: true };
+    } catch (error) {
+      lastError = error;
+      attempt++;
+      if (attempt <= maxRetries) {
+        await new Promise((resolve) => setTimeout(resolve, retryDelay));
+      }
+    }
+  }
+  console.error(
+    `[AsyncLoader] Failed to load ${displayName} after ${maxRetries + 1} attempts:`,
+    lastError
+  );
+  return {
+    id: config.id,
+    success: false,
+    error: lastError
+  };
+};
+var loadComponents = async (components, options = {}) => {
+  const { debug = false } = options;
+  if (debug) {
+    console.log(`[AsyncLoader] Starting to load ${components.length} components in parallel`);
+  }
+  const results = await Promise.allSettled(
+    components.map((config) => loadComponentWithRetry(config, options))
+  );
+  const loadResults = results.map((result, index) => {
+    if (result.status === "fulfilled") {
+      return result.value;
+    }
+    const config = components[index];
+    console.error(
+      `[AsyncLoader] Unexpected error loading ${config.displayName || config.id}:`,
+      result.reason
+    );
+    return {
+      id: config.id,
+      success: false,
+      error: result.reason,
+      skipped: false
+    };
+  });
+  const successful = loadResults.filter((r) => r.success && r.skipped !== true).length;
+  const skipped = loadResults.filter((r) => r.skipped === true).length;
+  const failed = loadResults.filter((r) => r.success === false).length;
+  if (debug || failed > 0) {
+    console.log(
+      `[AsyncLoader] Load summary: ${successful} successful, ${skipped} skipped, ${failed} failed`
+    );
+  }
+  return loadResults;
+};
+var loadPageComponents = async (components, options = {}) => {
+  const matchingComponents = components.filter((config) => {
+    if (!config.routes) return false;
+    return isPage(config.routes);
+  });
+  return loadComponents(matchingComponents, options);
+};
+var loadGlobalComponents = async (components, options = {}) => {
+  return loadComponents(components, options);
+};
+
+// src/utils/dom-ready.ts
+var waitForDOMReady = () => {
+  return new Promise((resolve) => {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => resolve());
+    } else {
+      resolve();
+    }
+  });
+};
+
+// src/index.ts
+console.log("Index.ts loaded");
+waitForDOMReady().then(async () => {
+  const [globalResults, pageResults] = await Promise.all([
+    loadGlobalComponents(COMPONENT_REGISTRY.global, {
+      maxRetries: 1,
+      debug: true
+    }),
+    loadPageComponents(COMPONENT_REGISTRY.pageSpecific, {
+      maxRetries: 1,
+      debug: true
+    })
+  ]);
+  const allResults = [...globalResults, ...pageResults];
+  const failedComponents = allResults.filter((r) => !r.success);
+  if (failedComponents.length > 0) {
+    console.error(
+      "[App] Some components failed to load:",
+      failedComponents.map((r) => r.id)
+    );
+  }
+});
+//# sourceMappingURL=index.js.map
