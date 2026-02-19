@@ -158,6 +158,13 @@ export const COMPONENT_REGISTRY: ComponentRegistry = {
       displayName: 'Section Renderer',
     },
     {
+      id: 'entries-list-merge',
+      loader: () => import('../pages/entries/entries-list-merge'),
+      initFunction: 'initEntriesListMerge',
+      routes: '/entries',
+      displayName: 'Entries List Merge',
+    },
+    {
       id: 'featured-entries-limit',
       loader: () => import('../pages/entries/featured-entries-limit'),
       initFunction: 'initFeaturedEntriesLimit',

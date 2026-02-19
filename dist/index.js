@@ -129,6 +129,13 @@ var COMPONENT_REGISTRY = {
       displayName: "Section Renderer"
     },
     {
+      id: "entries-list-merge",
+      loader: () => import("./chunks/entries-list-merge-ZJMLFK6T.js"),
+      initFunction: "initEntriesListMerge",
+      routes: "/entries",
+      displayName: "Entries List Merge"
+    },
+    {
       id: "featured-entries-limit",
       loader: () => import("./chunks/featured-entries-limit-FXVHZ3F3.js"),
       initFunction: "initFeaturedEntriesLimit",
@@ -167,7 +174,7 @@ var COMPONENT_REGISTRY = {
     },
     {
       id: "entry-cms-page",
-      loader: () => import("./chunks/entry-cms-item-page-WCMKPWWH.js"),
+      loader: () => import("./chunks/entry-cms-item-page-ZV7KBFPZ.js"),
       initFunction: "entryCMSItemPage",
       routes: ["/entries/*", "/winners/*"],
       displayName: "Entry CMS Item Page"

@@ -4,10 +4,27 @@ import {
 import "./chunk-JG2TWXUP.js";
 
 // src/pages/entries (single)/entry-cms-item-page.ts
+var CMS_LIST_SELECTOR = '[custom_action="cms_list"]';
+var WEBFLOW_LIST_WRAPPER = ".w-dyn-list";
+var mergeCMSLists = () => {
+  const lists = Array.from(document.querySelectorAll(CMS_LIST_SELECTOR));
+  if (lists.length <= 1) return lists[0] ?? null;
+  const [primary, ...rest] = lists;
+  rest.forEach((list) => {
+    while (list.firstElementChild) {
+      primary.appendChild(list.firstElementChild);
+    }
+    const wrapper = list.closest(WEBFLOW_LIST_WRAPPER);
+    if (wrapper instanceof HTMLElement) {
+      wrapper.style.display = "none";
+    }
+  });
+  return primary;
+};
 var orderWinnerCMSList = () => {
   if (!isPage(["/winners/*"])) return;
   const SELECTORS = {
-    CMS_LIST: '[custom_action="cms_list"]',
+    CMS_LIST: CMS_LIST_SELECTOR,
     CMS_CATEGORY: "cms-category",
     CMS_POSITION: "cms-position"
   };
@@ -34,11 +51,15 @@ var orderWinnerCMSList = () => {
 };
 var entryCMSItemPage = () => {
   console.log("Initializing entry page navigation");
+  const list = mergeCMSLists();
+  if (!list) {
+    console.error("CMS list not found");
+    return;
+  }
   orderWinnerCMSList();
   const nextButton = document.querySelector('[custom_action="btn_next_cms"]');
   const prevButton = document.querySelector('[custom_action="btn_prev_cms"]');
-  const list = document.querySelector('[custom_action="cms_list"]');
-  if (!list || !nextButton || !prevButton) {
+  if (!nextButton || !prevButton) {
     console.error("CMS elements missing - ", { list, nextButton, prevButton });
     return;
   }
@@ -77,4 +98,4 @@ var entryCMSItemPage = () => {
 export {
   entryCMSItemPage
 };
-//# sourceMappingURL=entry-cms-item-page-WCMKPWWH.js.map
+//# sourceMappingURL=entry-cms-item-page-ZV7KBFPZ.js.map
