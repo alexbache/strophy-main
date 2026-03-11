@@ -125,42 +125,42 @@ var COMPONENT_REGISTRY = {
       id: "section-renderer",
       loader: () => import("./chunks/section-renderer-HWJF6ZKE.js"),
       initFunction: "initSectionRenderer",
-      routes: "/entries",
+      routes: ["/entries"],
       displayName: "Section Renderer"
     },
     {
       id: "entries-list-merge",
       loader: () => import("./chunks/entries-list-merge-ZJMLFK6T.js"),
       initFunction: "initEntriesListMerge",
-      routes: "/entries",
+      routes: ["/entries", "/entries-copy"],
       displayName: "Entries List Merge"
     },
     {
       id: "featured-entries-limit",
       loader: () => import("./chunks/featured-entries-limit-FXVHZ3F3.js"),
       initFunction: "initFeaturedEntriesLimit",
-      routes: "/entries",
+      routes: ["/entries", "/entries-copy"],
       displayName: "Featured Entries Limit"
     },
     {
       id: "winner-position",
       loader: () => import("./chunks/winners-4SLZKJEN.js"),
       initFunction: "initWinnerItemPosition",
-      routes: "/entries",
+      routes: ["/entries", "/entries-copy"],
       displayName: "Winner Item Position"
     },
     {
       id: "entries-filters",
       loader: () => import("./chunks/filters-MGSCCAVG.js"),
       initFunction: "initFilters",
-      routes: "/entries",
+      routes: ["/entries", "/entries-copy"],
       displayName: "Entries Page Filters"
     },
     {
       id: "entries-swiper",
       loader: () => import("./chunks/image-swipers-DQY37V2L.js"),
       initFunction: "initSwiper",
-      routes: "/entries",
+      routes: ["/entries", "/entries-copy"],
       displayName: "Entries Swiper",
       args: ["featured-entries"]
     },
