@@ -17,12 +17,38 @@ type EntryListTarget = {
   list: HTMLElement;
 };
 
+function isFinalist(element: Element): boolean {
+  return element.getAttribute('data-finalist')?.toLowerCase() === 'true';
+}
+
 function mergeChildrenIntoFirst(primary: HTMLElement, sources: EntryListTarget[]) {
   sources.forEach(({ list }) => {
     // Move all children to preserve order and existing inline styles.
     while (list.firstElementChild) {
       primary.appendChild(list.firstElementChild);
     }
+  });
+}
+
+function sortPrimaryEntriesFinalistsFirst(primary: HTMLElement) {
+  const entries = Array.from(primary.children) as HTMLElement[];
+  if (entries.length <= 1) return;
+
+  const finalists: HTMLElement[] = [];
+  const others: HTMLElement[] = [];
+
+  entries.forEach((entry) => {
+    if (isFinalist(entry)) {
+      finalists.push(entry);
+      return;
+    }
+    others.push(entry);
+  });
+
+  if (finalists.length === 0 || others.length === 0) return;
+
+  [...finalists, ...others].forEach((entry) => {
+    primary.appendChild(entry);
   });
 }
 
@@ -54,6 +80,7 @@ const initEntriesListMerge = () => {
 
   const [primary, ...rest] = targets;
   mergeChildrenIntoFirst(primary.list, rest);
+  sortPrimaryEntriesFinalistsFirst(primary.list);
   hideEmptySourceWrappers(primary.wrapper, rest);
 };
 
