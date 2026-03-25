@@ -130,7 +130,7 @@ var COMPONENT_REGISTRY = {
     },
     {
       id: "entries-list-merge",
-      loader: () => import("./chunks/entries-list-merge-ZJMLFK6T.js"),
+      loader: () => import("./chunks/entries-list-merge-IHQHRH47.js"),
       initFunction: "initEntriesListMerge",
       routes: ["/entries", "/entries-copy"],
       displayName: "Entries List Merge"
