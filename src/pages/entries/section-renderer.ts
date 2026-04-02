@@ -63,7 +63,7 @@ const renderEntries = () => {
   }
 
   if (activePhase === PHASES.PHASE_3) {
-    toggleSection(winnersSection, false);
+    toggleSection(winnersSection, true);
     toggleSection(featuredEntriesSection, true);
     toggleSection(allEntriesSection, true);
     return;

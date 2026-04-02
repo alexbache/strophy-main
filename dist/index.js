@@ -123,7 +123,7 @@ var COMPONENT_REGISTRY = {
     // Entries list page components
     {
       id: "section-renderer",
-      loader: () => import("./chunks/section-renderer-HWJF6ZKE.js"),
+      loader: () => import("./chunks/section-renderer-B5FJ5TPQ.js"),
       initFunction: "initSectionRenderer",
       routes: ["/entries"],
       displayName: "Section Renderer"
