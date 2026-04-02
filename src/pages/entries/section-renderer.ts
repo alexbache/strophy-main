@@ -41,6 +41,7 @@ const renderEntries = () => {
     return;
   }
 
+  // Originally used phase control to toggle section - now just showing all sections and controlling visibility from the Webflow Editor
   if (showAllPhases) {
     toggleSection(winnersSection, true);
     toggleSection(featuredEntriesSection, true);
@@ -49,14 +50,14 @@ const renderEntries = () => {
   }
 
   if (activePhase === PHASES.PHASE_1) {
-    toggleSection(winnersSection, false);
-    toggleSection(featuredEntriesSection, false);
-    toggleSection(allEntriesSection, false);
+    toggleSection(winnersSection, true);
+    toggleSection(featuredEntriesSection, true);
+    toggleSection(allEntriesSection, true);
     return;
   }
 
   if (activePhase === PHASES.PHASE_2) {
-    toggleSection(winnersSection, false);
+    toggleSection(winnersSection, true);
     toggleSection(featuredEntriesSection, true);
     toggleSection(allEntriesSection, true);
     return;
