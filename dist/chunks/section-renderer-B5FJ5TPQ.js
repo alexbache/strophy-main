@@ -56,7 +56,7 @@ var renderEntries = () => {
   }
   if (activePhase === "phase-4" /* PHASE_4 */) {
     toggleSection(winnersSection, true);
-    toggleSection(featuredEntriesSection, false);
+    toggleSection(featuredEntriesSection, true);
     toggleSection(allEntriesSection, true);
     return;
   }
